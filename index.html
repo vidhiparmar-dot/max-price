@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Max Price Project - CSM Driver Dashboard (Top 50 Marketing)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2.5s infinite;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.04);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.5);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(100,116,139,0.7);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white font-sans transition-colors duration-200">
+  
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-xs">
+    <div class="flex items-center gap-3.5">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-emerald-500 flex items-center justify-center shadow-md shadow-indigo-500/20 text-white font-bold text-lg">
+        ⚡
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white">Max Price Project — CSM Driver Command Center</h1>
+          <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30">Top 50 Marketing Pool</span>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">CSM-Led Adoption Execution, Live Traffic Activation & Milestone Pacing</p>
+      </div>
+    </div>
+
+    <!-- Quick Stats, Theme Switcher & Actions in Header -->
+    <div class="flex items-center gap-2.5 sm:gap-3">
+      <div class="hidden md:flex items-center gap-2 bg-slate-100 dark:bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/60 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="text-slate-600 dark:text-slate-300 font-medium">CSM Addressable Pool:</span>
+        <span class="text-emerald-600 dark:text-emerald-400 font-bold">879.0M msgs</span>
+      </div>
+
+      <!-- Light / Dark Mode Toggle Button -->
+      <button onclick="toggleTheme()" id="theme-toggle-btn" title="Toggle Theme" class="p-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg border border-slate-200 dark:border-slate-700 transition flex items-center justify-center">
+        <span id="theme-icon" class="text-sm">🌙</span>
+      </button>
+
+      <button onclick="exportCSV()" class="px-3 py-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 shadow-xs transition flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.5L19 7.5V19a2 2 0 01-2 2z"/></svg>
+        Export CSV
+      </button>
+
+      <button onclick="resetFilters()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-xs transition flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        Reset Filters
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-[1700px] mx-auto p-4 md:p-6 space-y-6">
+
+    <!-- KPI Cards Grid -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      
+      <!-- KPI 1: Top 50 Total -->
+      <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <span class="font-medium">Top 50 Monthly Volume</span>
+          <span class="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-semibold text-[11px]">51 Accounts</span>
+        </div>
+        <div class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="kpi-total-vol">79.74M</div>
+        <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
+          <span>6M Base: <b class="text-slate-800 dark:text-slate-200">478.4M</b></span>
+          <span class="text-slate-400 dark:text-slate-500">Managed by 18 CSMs</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+          <div class="bg-indigo-600 h-full rounded-full" style="width: 100%"></div>
+        </div>
+      </div>
+
+      <!-- KPI 2: Engaged Pipeline -->
+      <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <span class="font-medium">CSM Engaged Pipeline</span>
+          <span class="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 font-semibold text-[11px]" id="kpi-engaged-pct">27.1% Vol</span>
+        </div>
+        <div class="text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tight" id="kpi-engaged-vol">21.59M <span class="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span></div>
+        <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
+          <span>Warm + Configured:</span>
+          <span class="text-blue-700 dark:text-blue-300 font-bold" id="kpi-engaged-count">10 Clients (6 CSMs)</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+          <div class="bg-blue-600 h-full rounded-full transition-all duration-500" id="bar-engaged-vol" style="width: 27.1%"></div>
+        </div>
+      </div>
+
+      <!-- KPI 3: MaxPrice Enabled -->
+      <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <span class="font-medium">MaxPrice Enabled</span>
+          <span class="px-2 py-0.5 rounded-md bg-sky-50 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-300 font-semibold text-[11px]">Ready for Live</span>
+        </div>
+        <div class="text-2xl font-black text-sky-600 dark:text-cyan-400 tracking-tight" id="kpi-enabled-vol">2.00M <span class="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span></div>
+        <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
+          <span>Configured:</span>
+          <span class="text-sky-700 dark:text-cyan-300 font-bold" id="kpi-enabled-count">3 Clients (3 CSMs)</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+          <div class="bg-sky-500 h-full rounded-full transition-all duration-500" style="width: 2.5%"></div>
+        </div>
+      </div>
+
+      <!-- KPI 4: Pitching / Interested -->
+      <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <span class="font-medium">Active CSM Pitches</span>
+          <span class="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 font-semibold text-[11px]">Warm In-Flight</span>
+        </div>
+        <div class="text-2xl font-black text-amber-600 dark:text-amber-400 tracking-tight" id="kpi-interested-vol">19.59M <span class="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span></div>
+        <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
+          <span>In Discussions:</span>
+          <span class="text-amber-700 dark:text-amber-300 font-bold" id="kpi-interested-count">7 Clients (24.6%)</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+          <div class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 24.6%"></div>
+        </div>
+      </div>
+
+      <!-- KPI 5: Milestone Goal -->
+      <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <span class="font-medium">10% Milestone Goal</span>
+          <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold text-[11px]">₹7.56L Pool</span>
+        </div>
+        <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight" id="kpi-gap-vol">87.90M</div>
+        <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
+          <span>CSM Goal Pacing:</span>
+          <span class="text-emerald-700 dark:text-emerald-300 font-bold">24.6% to 10% Tier</span>
+        </div>
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+          <div class="bg-emerald-500 h-full rounded-full" style="width: 24.6%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CSM Driver Leaderboard & Priority Pods (Spotlight Section) -->
+    <section class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 md:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 text-xs font-bold">Primary Project Drivers</span>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Customer Success Manager (CSM) Adoption Leaderboard</h2>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Click any CSM card below to immediately filter their entire client portfolio in the directory table below.</p>
+        </div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">
+          Total CSMs: <b class="text-slate-800 dark:text-slate-200">18 Active CSMs</b>
+        </div>
+      </div>
+
+      <!-- CSM Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="csm-grid-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Interactive Adoption Milestone & Scenario Simulator -->
+    <section class="bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900/90 dark:to-indigo-950/40 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 md:p-6 shadow-xs">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30 text-xs font-semibold">Interactive Forecasting</span>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Max Price Adoption Milestone & Incentive Calculator</h2>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Simulate volume delivery, bid at base assumption, and team incentive payouts in INR (₹) & USD ($)</p>
+        </div>
+
+        <!-- Adoption Milestone Switcher -->
+        <div class="flex items-center bg-slate-100 dark:bg-slate-950/80 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 gap-1.5 self-start lg:self-auto">
+          <button onclick="setScenario(10)" id="btn-scen-10" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow-xs">10% Milestone</button>
+          <button onclick="setScenario(20)" id="btn-scen-20" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">20% Milestone</button>
+          <button onclick="setScenario(30)" id="btn-scen-30" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">30% Milestone</button>
+          <button onclick="setScenario('custom')" id="btn-scen-custom" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Custom Slider</button>
+        </div>
+      </div>
+
+      <!-- Controls & Live Calculation Result -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6">
+        <div class="md:col-span-4 space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <span>Target Adoption Rate:</span>
+              <span id="slider-val-adoption" class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">10%</span>
+            </div>
+            <input type="range" id="slider-adoption" min="1" max="50" value="10" step="1" oninput="updateCustomScenario()" class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+            <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-medium">
+              <span>1% (8.8M)</span>
+              <span>10%</span>
+              <span>20%</span>
+              <span>30%</span>
+              <span>50% (439M)</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <span>Base Addressable Pool (Assume 45%):</span>
+              <span class="font-bold text-slate-900 dark:text-slate-200">879,034,115 msgs</span>
+            </div>
+            <div class="text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800/80 leading-relaxed">
+              💡 <b>CSM Target Benchmark:</b> Top 50 clients provide <b>~79.7M</b> monthly volume. Capturing adoption across just the top 5 CSM portfolios (Romit, Lokesh, Mohamed, Heena, Akash) unlocks <b>48.6M/mo</b> in traffic!
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Metric Cards -->
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <div class="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Projected 6-Month Volume</span>
+            <div class="text-xl lg:text-2xl font-extrabold text-indigo-700 dark:text-indigo-300 my-1.5" id="sim-vol">87,903,411</div>
+            <span class="text-[11px] text-slate-500 font-medium" id="sim-vol-mo">~14.65M monthly avg</span>
+          </div>
+
+          <div class="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Assume Bid at Base</span>
+            <div class="text-xl lg:text-2xl font-extrabold text-sky-700 dark:text-cyan-300 my-1.5" id="sim-bid">75,596,934</div>
+            <span class="text-[11px] text-slate-500 font-medium">86% effective conversion</span>
+          </div>
+
+          <div class="bg-emerald-50/70 dark:bg-gradient-to-br dark:from-emerald-950/40 dark:to-slate-950/80 border border-emerald-200 dark:border-emerald-800/40 rounded-xl p-4 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-emerald-800 dark:text-emerald-400">Team Incentive Payout</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 font-bold" id="sim-usd">$8,316 USD</span>
+            </div>
+            <div class="text-xl lg:text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 my-1.5" id="sim-inr">₹7,55,969</div>
+            <span class="text-[11px] text-emerald-700 dark:text-emerald-500 font-medium">Calculated incentive pool</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top 50 Client Directory & Interactive Explorer -->
+    <section class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xs space-y-4">
+      
+      <!-- Table Header & Controls -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Client Portfolio & MaxPrice Adoption Matrix</h2>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold border border-slate-200 dark:border-slate-700" id="table-count-badge">Showing 51 Accounts</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Filter by CSM, stage, region, volume tier, or search account names</p>
+        </div>
+
+        <!-- Filter Row (CSM Promoted to First Filter) -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <!-- Search -->
+          <div class="relative">
+            <input type="text" id="search-input" placeholder="Search client or CSM..." oninput="applyFilters()" class="w-44 sm:w-56 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+            <span class="absolute right-2.5 top-2 text-slate-400 text-xs">🔍</span>
+          </div>
+
+          <!-- CSM Filter (Primary) -->
+          <select id="filter-csm" onchange="applyFilters()" class="bg-indigo-50/70 dark:bg-slate-950 border border-indigo-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs font-semibold text-indigo-900 dark:text-indigo-300 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All CSMs (18)</option>
+          </select>
+
+          <!-- Stage Filter -->
+          <select id="filter-stage" onchange="applyFilters()" class="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All Stages</option>
+            <option value="ENABLED">MaxPrice Enabled (3)</option>
+            <option value="INTERESTED">Pitching / Interested (7)</option>
+            <option value="PIPELINE">Target Pipeline (41)</option>
+          </select>
+
+          <!-- Region Filter -->
+          <select id="filter-region" onchange="applyFilters()" class="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All Regions</option>
+            <option value="West">West (21)</option>
+            <option value="South">South (16)</option>
+            <option value="North">North (14)</option>
+          </select>
+
+          <!-- Tier Filter -->
+          <select id="filter-tier" onchange="applyFilters()" class="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All Volume Tiers</option>
+            <option value="Tier 1 (>5M/mo)">Tier 1 (>5M/mo)</option>
+            <option value="Tier 2 (1M-5M/mo)">Tier 2 (1M-5M/mo)</option>
+            <option value="Tier 3 (500k-1M/mo)">Tier 3 (500k-1M/mo)</option>
+            <option value="Tier 4 (<500k/mo)">Tier 4 (&lt;500k/mo)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="overflow-x-auto custom-scrollbar border border-slate-200 dark:border-slate-800 rounded-xl">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100/90 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 font-bold border-b border-slate-200 dark:border-slate-800">
+              <th class="py-3 px-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('id')">#</th>
+              <th class="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('name')">Client Name ↕</th>
+              <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('stage')">MaxPrice Stage ↕</th>
+              <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white text-indigo-700 dark:text-indigo-300" onclick="sortTable('csm')">CSM (Driver) ↕</th>
+              <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('sales_am')">Sales AM / TL ↕</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('avg_monthly')">Avg Monthly Vol ↕</th>
+              <th class="py-3 px-4 text-center">6-Month Trend (Jan - Jun)</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('target_3_5x')">*3.5 Target ↕</th>
+              <th class="py-3 px-3 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('target_1_1x')">*1.1 Target ↕</th>
+              <th class="py-3 px-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody id="clients-tbody" class="divide-y divide-slate-200 dark:divide-slate-800/60 bg-white dark:bg-slate-900/40">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Summary Footer -->
+      <div class="flex flex-wrap items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 px-1">
+        <div id="filter-summary-text">Showing 51 of 51 clients</div>
+        <div class="flex items-center gap-4">
+          <div>Filtered Avg Volume: <b class="text-slate-900 dark:text-white font-bold" id="filtered-vol-sum">79.74M</b></div>
+          <div>Filtered Engaged: <b class="text-emerald-600 dark:text-emerald-400 font-bold" id="filtered-engaged-sum">21.59M</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategic CSM Action Playbook -->
+    <section class="bg-gradient-to-r from-indigo-50/70 via-white to-slate-50 dark:from-indigo-950/40 dark:via-slate-900 dark:to-slate-900 border border-indigo-100 dark:border-indigo-900/40 rounded-2xl p-5 md:p-6 shadow-xs">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        <h2 class="text-base font-bold text-slate-900 dark:text-white">CSM Execution Playbook: Key Account Sprints</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <!-- Sprint 1: Enabled Activation -->
+        <div class="bg-white dark:bg-slate-950/70 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
+          <div class="flex items-center justify-between text-emerald-700 dark:text-emerald-400 font-bold">
+            <span>1. Launch Live Volume (3 CSMs)</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-[10px]">High Priority</span>
+          </div>
+          <p class="text-slate-800 dark:text-slate-300 font-bold">Start First Traffic on Enabled Accounts</p>
+          <ul class="text-slate-600 dark:text-slate-400 space-y-2">
+            <li>• <b>Lokesh Sharma</b> ➔ Trigger pilot broadcast on <b>Anveshan (970k)</b></li>
+            <li>• <b>Asad Khatau</b> ➔ Activate bidding on <b>Join Ventures (823k)</b></li>
+            <li>• <b>Heena</b> ➔ Configure live traffic routing on <b>Nuvama (211k)</b></li>
+          </ul>
+        </div>
+
+        <!-- Sprint 2: Warm Leads Close -->
+        <div class="bg-white dark:bg-slate-950/70 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
+          <div class="flex items-center justify-between text-sky-700 dark:text-cyan-400 font-bold">
+            <span>2. Close 7 Warm Pitches (~19.6M Vol)</span>
+            <span class="px-2 py-0.5 rounded-full bg-sky-100 dark:bg-cyan-500/20 text-[10px]">14-Day Sprint</span>
+          </div>
+          <p class="text-slate-800 dark:text-slate-300 font-bold">CSM Pitch Conversion Priority</p>
+          <ul class="text-slate-600 dark:text-slate-400 space-y-2">
+            <li>• <b>Mohamed</b> ➔ Close <b>TVS Credit Services (8.53M)</b></li>
+            <li>• <b>Heena</b> ➔ Enable <b>ICICI Prudential Life (3.94M)</b></li>
+            <li>• <b>Sakshi Kothari</b> ➔ Convert <b>The Souled Store (2.51M)</b></li>
+            <li>• <b>Utpal</b> ➔ Onboard <b>Muthoot Fincorp (1.98M)</b></li>
+            <li>• <b>Nivetha Kanan</b> ➔ Whitelist <b>Shriram Transport (792K) & GRT (321K)</b></li>
+          </ul>
+        </div>
+
+        <!-- Sprint 3: Whale Unlocks -->
+        <div class="bg-white dark:bg-slate-950/70 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
+          <div class="flex items-center justify-between text-amber-700 dark:text-amber-400 font-bold">
+            <span>3. Top Whale Unlocks (~26.7M Vol)</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-[10px]">Strategic</span>
+          </div>
+          <p class="text-slate-800 dark:text-slate-300 font-bold">Top 3 Unpitched Accounts</p>
+          <ul class="text-slate-600 dark:text-slate-400 space-y-2">
+            <li>• <b>Romit</b> ➔ Initiate pitch for <b>Poonawalla Fincorp (12.02M)</b> & <b>Bajaj Finserv (3.8M)</b></li>
+            <li>• <b>Lokesh Sharma</b> ➔ Pitch <b>Max Life Insurance (10.48M)</b></li>
+            <li>• <b>Akash MH</b> ➔ Present MaxPrice to <b>Ujjivan SFB (4.20M)</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Client Detail Modal / Drawer -->
+  <div id="client-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar p-6 space-y-5 shadow-2xl relative">
+      <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition">✕</button>
+      
+      <div id="modal-content">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Embedded Data & Interactive Scripts -->
+  <script>
+    const clientsData = [
+  {
+    "id": 1,
+    "name": "POONAWALLA FINCORP LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 1 (>5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Utkarsh Bhansali",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Romit",
+    "crs": "Sandeep Jaiswal",
+    "monthly": [
+      {"month": "Jan", "val": 10695390},
+      {"month": "Feb", "val": 12411703},
+      {"month": "Mar", "val": 13098727},
+      {"month": "Apr", "val": 11737637},
+      {"month": "May", "val": 12219311},
+      {"month": "Jun", "val": 11960632}
+    ],
+    "total_6m": 72123400,
+    "avg_monthly": 12020567,
+    "target_3_5x": 42071983,
+    "target_1_1x": 46279182,
+    "jun_growth": -2.12
+  },
+  {
+    "id": 2,
+    "name": "Max Life Insurance Co. Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 1 (>5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Sinha",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Lokesh Sharma",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 8671434},
+      {"month": "Feb", "val": 8051720},
+      {"month": "Mar", "val": 10286443},
+      {"month": "Apr", "val": 11502378},
+      {"month": "May", "val": 12282409},
+      {"month": "Jun", "val": 12055818}
+    ],
+    "total_6m": 62850202,
+    "avg_monthly": 10475034,
+    "target_3_5x": 36662618,
+    "target_1_1x": 40328880,
+    "jun_growth": -1.84
+  },
+  {
+    "id": 3,
+    "name": "TVS Credit Services Ltd.",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 1 (>5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rithika Salian",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Mohamed",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 8831870},
+      {"month": "Feb", "val": 8467073},
+      {"month": "Mar", "val": 6762485},
+      {"month": "Apr", "val": 8861588},
+      {"month": "May", "val": 9073931},
+      {"month": "Jun", "val": 9190716}
+    ],
+    "total_6m": 51187663,
+    "avg_monthly": 8531277,
+    "target_3_5x": 29859470,
+    "target_1_1x": 32845417,
+    "jun_growth": 1.29
+  },
+  {
+    "id": 4,
+    "name": "Ujjivan Small Finance Bank Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Akash MH",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 4943811},
+      {"month": "Feb", "val": 1658706},
+      {"month": "Mar", "val": 12582942},
+      {"month": "Apr", "val": 1913532},
+      {"month": "May", "val": 1979826},
+      {"month": "Jun", "val": 2150530}
+    ],
+    "total_6m": 25229347,
+    "avg_monthly": 4204891,
+    "target_3_5x": 14717119,
+    "target_1_1x": 16188831,
+    "jun_growth": 8.62
+  },
+  {
+    "id": 5,
+    "name": "ICICI PRUDENTIAL LIFE INSURANCE COMPANY LIMITED",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Utkarsh Bhansali",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Heena",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 3121489},
+      {"month": "Feb", "val": 3538575},
+      {"month": "Mar", "val": 6493820},
+      {"month": "Apr", "val": 4622958},
+      {"month": "May", "val": 3250862},
+      {"month": "Jun", "val": 2622253}
+    ],
+    "total_6m": 23649957,
+    "avg_monthly": 3941660,
+    "target_3_5x": 13795808,
+    "target_1_1x": 15175389,
+    "jun_growth": -19.34
+  },
+  {
+    "id": 6,
+    "name": "Bajaj Finserv Direct Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Kapil Sharma",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Romit",
+    "crs": "Sandeep Jaiswal",
+    "monthly": [
+      {"month": "Jan", "val": 8333694},
+      {"month": "Feb", "val": 3236688},
+      {"month": "Mar", "val": 3373867},
+      {"month": "Apr", "val": 1992168},
+      {"month": "May", "val": 3426326},
+      {"month": "Jun", "val": 2529522}
+    ],
+    "total_6m": 22892265,
+    "avg_monthly": 3815378,
+    "target_3_5x": 13353821,
+    "target_1_1x": 14689203,
+    "jun_growth": -26.17
+  },
+  {
+    "id": 7,
+    "name": "The Souled Store Pvt. Ltd.",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Pillai",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Sakshi Kothari",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1504145},
+      {"month": "Feb", "val": 2262571},
+      {"month": "Mar", "val": 2629477},
+      {"month": "Apr", "val": 2980139},
+      {"month": "May", "val": 2975284},
+      {"month": "Jun", "val": 2708136}
+    ],
+    "total_6m": 15059752,
+    "avg_monthly": 2509959,
+    "target_3_5x": 8784855,
+    "target_1_1x": 9663341,
+    "jun_growth": -8.98
+  },
+  {
+    "id": 8,
+    "name": "Kotak Securities Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Arun Singh",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Sakshi Kothari",
+    "crs": "Lucy Chatterjee",
+    "monthly": [
+      {"month": "Jan", "val": 2839113},
+      {"month": "Feb", "val": 1586671},
+      {"month": "Mar", "val": 1483352},
+      {"month": "Apr", "val": 1804234},
+      {"month": "May", "val": 1497439},
+      {"month": "Jun", "val": 3977832}
+    ],
+    "total_6m": 13188641,
+    "avg_monthly": 2198107,
+    "target_3_5x": 7693374,
+    "target_1_1x": 8462711,
+    "jun_growth": 165.64
+  },
+  {
+    "id": 9,
+    "name": "Manash Lifestyle Pvt. Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Pillai",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "Lucy Chatterjee",
+    "monthly": [
+      {"month": "Jan", "val": 1303438},
+      {"month": "Feb", "val": 2183592},
+      {"month": "Mar", "val": 3673739},
+      {"month": "Apr", "val": 1718162},
+      {"month": "May", "val": 2358318},
+      {"month": "Jun", "val": 1526698}
+    ],
+    "total_6m": 12763947,
+    "avg_monthly": 2127325,
+    "target_3_5x": 7445636,
+    "target_1_1x": 8190199,
+    "jun_growth": -35.26
+  },
+  {
+    "id": 10,
+    "name": "Muthoot Fincorp Ltd.",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Utpal",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1293998},
+      {"month": "Feb", "val": 1092784},
+      {"month": "Mar", "val": 1775071},
+      {"month": "Apr", "val": 2989306},
+      {"month": "May", "val": 2510098},
+      {"month": "Jun", "val": 2248368}
+    ],
+    "total_6m": 11909625,
+    "avg_monthly": 1984938,
+    "target_3_5x": 6947281,
+    "target_1_1x": 7642009,
+    "jun_growth": -10.43
+  },
+  {
+    "id": 11,
+    "name": "Pureplay Skin Sciences India Pvt Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Pillai",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Renuka",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 2655257},
+      {"month": "Feb", "val": 1799880},
+      {"month": "Mar", "val": 2127203},
+      {"month": "Apr", "val": 1692589},
+      {"month": "May", "val": 1846267},
+      {"month": "Jun", "val": 1000084}
+    ],
+    "total_6m": 11121280,
+    "avg_monthly": 1853547,
+    "target_3_5x": 6487413,
+    "target_1_1x": 7136155,
+    "jun_growth": -45.83
+  },
+  {
+    "id": 12,
+    "name": "Aditya Birla Sun Life AMC Limited",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Madhusha Bhati",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 4909135},
+      {"month": "Feb", "val": 2072429},
+      {"month": "Mar", "val": 132814},
+      {"month": "Apr", "val": 315650},
+      {"month": "May", "val": 597298},
+      {"month": "Jun", "val": 988808}
+    ],
+    "total_6m": 9016134,
+    "avg_monthly": 1502689,
+    "target_3_5x": 5259412,
+    "target_1_1x": 5785353,
+    "jun_growth": 65.55
+  },
+  {
+    "id": 13,
+    "name": "ADITYA BIRLA SUN LIFE INSURANCE COMPANY LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Madhusha Bhati",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Heena",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1447892},
+      {"month": "Feb", "val": 696695},
+      {"month": "Mar", "val": 1435547},
+      {"month": "Apr", "val": 1004756},
+      {"month": "May", "val": 1051546},
+      {"month": "Jun", "val": 2228108}
+    ],
+    "total_6m": 7864544,
+    "avg_monthly": 1310757,
+    "target_3_5x": 4587651,
+    "target_1_1x": 5046416,
+    "jun_growth": 111.89
+  },
+  {
+    "id": 14,
+    "name": "Apollo Hospitals Enterprise Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Aman Bothra",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "AmanR",
+    "monthly": [
+      {"month": "Jan", "val": 1735987},
+      {"month": "Feb", "val": 1886844},
+      {"month": "Mar", "val": 1676185},
+      {"month": "Apr", "val": 999438},
+      {"month": "May", "val": 725517},
+      {"month": "Jun", "val": 580774}
+    ],
+    "total_6m": 7604745,
+    "avg_monthly": 1267458,
+    "target_3_5x": 4436101,
+    "target_1_1x": 4879711,
+    "jun_growth": -19.95
+  },
+  {
+    "id": 15,
+    "name": "Ferns N Petals Pvt. Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Shubham Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Unassigned",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1282253},
+      {"month": "Feb", "val": 2844375},
+      {"month": "Mar", "val": 1319523},
+      {"month": "Apr", "val": 896719},
+      {"month": "May", "val": 145948},
+      {"month": "Jun", "val": 114990}
+    ],
+    "total_6m": 6603808,
+    "avg_monthly": 1100635,
+    "target_3_5x": 3852221,
+    "target_1_1x": 4237443,
+    "jun_growth": -21.21
+  },
+  {
+    "id": 16,
+    "name": "Emami Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Astha Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Smriti Nagrath",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1411632},
+      {"month": "Feb", "val": 1247074},
+      {"month": "Mar", "val": 1051435},
+      {"month": "Apr", "val": 753185},
+      {"month": "May", "val": 954637},
+      {"month": "Jun", "val": 0}
+    ],
+    "total_6m": 5417963,
+    "avg_monthly": 1083593,
+    "target_3_5x": 3792574,
+    "target_1_1x": 4171832,
+    "jun_growth": -100.0
+  },
+  {
+    "id": 17,
+    "name": "HDFC Asset Management Company Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Sinha",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Hiral Jhaveri",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 642154},
+      {"month": "Feb", "val": 187099},
+      {"month": "Mar", "val": 2243257},
+      {"month": "Apr", "val": 979423},
+      {"month": "May", "val": 765072},
+      {"month": "Jun", "val": 1398408}
+    ],
+    "total_6m": 6215413,
+    "avg_monthly": 1035902,
+    "target_3_5x": 3625658,
+    "target_1_1x": 3988223,
+    "jun_growth": 82.78
+  },
+  {
+    "id": 18,
+    "name": "Reliance General Insurance Co. Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 2 (1M-5M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Sana Zarar",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Bhagyashri",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1675717},
+      {"month": "Feb", "val": 1150347},
+      {"month": "Mar", "val": 360389},
+      {"month": "Apr", "val": 658781},
+      {"month": "May", "val": 1167824},
+      {"month": "Jun", "val": 1002408}
+    ],
+    "total_6m": 6015466,
+    "avg_monthly": 1002578,
+    "target_3_5x": 3509022,
+    "target_1_1x": 3859924,
+    "jun_growth": -14.16
+  },
+  {
+    "id": 19,
+    "name": "ANVESHAN FARM TECHNOLOGIES PRIVATE LIMITED",
+    "interested": true,
+    "max_price": true,
+    "started_vol": false,
+    "stage": "MaxPrice Enabled",
+    "stage_order": 3,
+    "stage_badge": "Enabled",
+    "badge_color": "blue",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Shubham Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Lokesh Sharma",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 700751},
+      {"month": "Feb", "val": 862252},
+      {"month": "Mar", "val": 1032399},
+      {"month": "Apr", "val": 1042539},
+      {"month": "May", "val": 1017433},
+      {"month": "Jun", "val": 1167200}
+    ],
+    "total_6m": 5822574,
+    "avg_monthly": 970429,
+    "target_3_5x": 3396502,
+    "target_1_1x": 3736152,
+    "jun_growth": 14.72
+  },
+  {
+    "id": 20,
+    "name": "GRAMSTRONG E-SERVICES PRIVATE LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Paridhi Jain",
+    "team": "RAM",
+    "region": "North",
+    "tl": "Pranay",
+    "csm": "Swetlana singh",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 584586},
+      {"month": "Feb", "val": 686768},
+      {"month": "Mar", "val": 1191025},
+      {"month": "Apr", "val": 896252},
+      {"month": "May", "val": 906227},
+      {"month": "Jun", "val": 1115419}
+    ],
+    "total_6m": 5380277,
+    "avg_monthly": 896713,
+    "target_3_5x": 3138495,
+    "target_1_1x": 3452344,
+    "jun_growth": 23.08
+  },
+  {
+    "id": 21,
+    "name": "Axis Asset Management Company Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rahul Sinha",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Hiral Jhaveri",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1077876},
+      {"month": "Feb", "val": 1255464},
+      {"month": "Mar", "val": 292947},
+      {"month": "Apr", "val": 902690},
+      {"month": "May", "val": 1096912},
+      {"month": "Jun", "val": 666465}
+    ],
+    "total_6m": 5292354,
+    "avg_monthly": 882059,
+    "target_3_5x": 3087207,
+    "target_1_1x": 3395927,
+    "jun_growth": -39.24
+  },
+  {
+    "id": 22,
+    "name": "Join Ventures Solutions Private Limited",
+    "interested": true,
+    "max_price": true,
+    "started_vol": false,
+    "stage": "MaxPrice Enabled",
+    "stage_order": 3,
+    "stage_badge": "Enabled",
+    "badge_color": "blue",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Arun Singh",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Asad Khatau",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 507994},
+      {"month": "Feb", "val": 943302},
+      {"month": "Mar", "val": 714815},
+      {"month": "Apr", "val": 666540},
+      {"month": "May", "val": 1169639},
+      {"month": "Jun", "val": 938632}
+    ],
+    "total_6m": 4940922,
+    "avg_monthly": 823487,
+    "target_3_5x": 2882205,
+    "target_1_1x": 3170425,
+    "jun_growth": -19.75
+  },
+  {
+    "id": 23,
+    "name": "Shriram Transport Finance Company Ltd",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Rithika Salian",
+    "team": "SAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Nivetha Kanan",
+    "crs": "Sandeep Jaiswal",
+    "monthly": [
+      {"month": "Jan", "val": 1203844},
+      {"month": "Feb", "val": 659872},
+      {"month": "Mar", "val": 729509},
+      {"month": "Apr", "val": 744215},
+      {"month": "May", "val": 660325},
+      {"month": "Jun", "val": 754978}
+    ],
+    "total_6m": 4752743,
+    "avg_monthly": 792124,
+    "target_3_5x": 2772433,
+    "target_1_1x": 3049677,
+    "jun_growth": 14.33
+  },
+  {
+    "id": 24,
+    "name": "GUVI Geek Network Private Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Aman Bothra",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Krithikrishnan",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 568552},
+      {"month": "Feb", "val": 730568},
+      {"month": "Mar", "val": 631541},
+      {"month": "Apr", "val": 784993},
+      {"month": "May", "val": 794012},
+      {"month": "Jun", "val": 1120487}
+    ],
+    "total_6m": 4630153,
+    "avg_monthly": 771692,
+    "target_3_5x": 2700923,
+    "target_1_1x": 2971015,
+    "jun_growth": 41.12
+  },
+  {
+    "id": 25,
+    "name": "Finwizard Technology Pvt Ltd. (Fisdom)",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Akash MH",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 768696},
+      {"month": "Feb", "val": 519364},
+      {"month": "Mar", "val": 709735},
+      {"month": "Apr", "val": 821626},
+      {"month": "May", "val": 666574},
+      {"month": "Jun", "val": 739585}
+    ],
+    "total_6m": 4225580,
+    "avg_monthly": 704263,
+    "target_3_5x": 2464922,
+    "target_1_1x": 2711414,
+    "jun_growth": 10.95
+  },
+  {
+    "id": 26,
+    "name": "Shemaroo Entertainment Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Unnit Dedhia",
+    "team": "Mobility",
+    "region": "West",
+    "tl": "Ankit",
+    "csm": "Unassigned",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 1144303},
+      {"month": "Feb", "val": 834644},
+      {"month": "Mar", "val": 525265},
+      {"month": "Apr", "val": 387321},
+      {"month": "May", "val": 551037},
+      {"month": "Jun", "val": 724429}
+    ],
+    "total_6m": 4166999,
+    "avg_monthly": 694500,
+    "target_3_5x": 2430749,
+    "target_1_1x": 2673824,
+    "jun_growth": 31.47
+  },
+  {
+    "id": 27,
+    "name": "FINO PAYMENTS BANK LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Apekshit Babaria",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "Lucy Chatterjee",
+    "monthly": [
+      {"month": "Jan", "val": 739517},
+      {"month": "Feb", "val": 1013562},
+      {"month": "Mar", "val": 830541},
+      {"month": "Apr", "val": 597654},
+      {"month": "May", "val": 675501},
+      {"month": "Jun", "val": 192450}
+    ],
+    "total_6m": 4049225,
+    "avg_monthly": 674871,
+    "target_3_5x": 2362048,
+    "target_1_1x": 2598253,
+    "jun_growth": -71.51
+  },
+  {
+    "id": 28,
+    "name": "Puravankara Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Shashi Singh",
+    "team": "Team X",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 0},
+      {"month": "Feb", "val": 0},
+      {"month": "Mar", "val": 172007},
+      {"month": "Apr", "val": 1624777},
+      {"month": "May", "val": 1066008},
+      {"month": "Jun", "val": 1056487}
+    ],
+    "total_6m": 3919279,
+    "avg_monthly": 653213,
+    "target_3_5x": 2286246,
+    "target_1_1x": 2514871,
+    "jun_growth": -0.89
+  },
+  {
+    "id": 29,
+    "name": "HDFC Credila Financial Services Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Utkarsh Bhansali",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Heena",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 912757},
+      {"month": "Feb", "val": 667027},
+      {"month": "Mar", "val": 554893},
+      {"month": "Apr", "val": 452657},
+      {"month": "May", "val": 735843},
+      {"month": "Jun", "val": 390086}
+    ],
+    "total_6m": 3713263,
+    "avg_monthly": 618877,
+    "target_3_5x": 2166070,
+    "target_1_1x": 2382677,
+    "jun_growth": -46.99
+  },
+  {
+    "id": 30,
+    "name": "Comsense Technologies Private Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Astha Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Unassigned",
+    "crs": "Milind Durgakar",
+    "monthly": [
+      {"month": "Jan", "val": 1122570},
+      {"month": "Feb", "val": 497909},
+      {"month": "Mar", "val": 821947},
+      {"month": "Apr", "val": 894561},
+      {"month": "May", "val": 356044},
+      {"month": "Jun", "val": 26}
+    ],
+    "total_6m": 3693057,
+    "avg_monthly": 615510,
+    "target_3_5x": 2154283,
+    "target_1_1x": 2369712,
+    "jun_growth": -99.99
+  },
+  {
+    "id": 31,
+    "name": "APPFLIX STUDIO LLP",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Tejasvi Heer",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Smriti Nagrath",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 794563},
+      {"month": "Feb", "val": 1405277},
+      {"month": "Mar", "val": 702509},
+      {"month": "Apr", "val": 73355},
+      {"month": "May", "val": 9},
+      {"month": "Jun", "val": 0}
+    ],
+    "total_6m": 2975713,
+    "avg_monthly": 595143,
+    "target_3_5x": 2082999,
+    "target_1_1x": 2291299,
+    "jun_growth": -100.0
+  },
+  {
+    "id": 32,
+    "name": "Clinikally Digital Health Pvt Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Tejasvi Heer",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Lokesh Sharma",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 508579},
+      {"month": "Feb", "val": 523160},
+      {"month": "Mar", "val": 633273},
+      {"month": "Apr", "val": 635281},
+      {"month": "May", "val": 712356},
+      {"month": "Jun", "val": 437746}
+    ],
+    "total_6m": 3450395,
+    "avg_monthly": 575066,
+    "target_3_5x": 2012730,
+    "target_1_1x": 2214003,
+    "jun_growth": -38.55
+  },
+  {
+    "id": 33,
+    "name": "PMMUE Eduservices Private Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Dhruvisha Patel",
+    "team": "Avenger",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Smriti Nagrath",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 259814},
+      {"month": "Feb", "val": 694132},
+      {"month": "Mar", "val": 505716},
+      {"month": "Apr", "val": 443334},
+      {"month": "May", "val": 728717},
+      {"month": "Jun", "val": 550488}
+    ],
+    "total_6m": 3182201,
+    "avg_monthly": 530367,
+    "target_3_5x": 1856284,
+    "target_1_1x": 2041912,
+    "jun_growth": -24.46
+  },
+  {
+    "id": 34,
+    "name": "MILES EDUCATION PRIVATE LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 3 (500k-1M/mo)",
+    "ce_api": "CE",
+    "sales_am": "Aman Bothra",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Shruti",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 260407},
+      {"month": "Feb", "val": 179259},
+      {"month": "Mar", "val": 581623},
+      {"month": "Apr", "val": 658373},
+      {"month": "May", "val": 941884},
+      {"month": "Jun", "val": 543358}
+    ],
+    "total_6m": 3164904,
+    "avg_monthly": 527484,
+    "target_3_5x": 1846194,
+    "target_1_1x": 2030813,
+    "jun_growth": -42.31
+  },
+  {
+    "id": 35,
+    "name": "Metropolis Healthcare Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "CE",
+    "sales_am": "Apekshit Babaria",
+    "team": "KAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Renuka",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 343103},
+      {"month": "Feb", "val": 453483},
+      {"month": "Mar", "val": 469688},
+      {"month": "Apr", "val": 538301},
+      {"month": "May", "val": 412388},
+      {"month": "Jun", "val": 643885}
+    ],
+    "total_6m": 2860848,
+    "avg_monthly": 476808,
+    "target_3_5x": 1668828,
+    "target_1_1x": 1835711,
+    "jun_growth": 56.14
+  },
+  {
+    "id": 36,
+    "name": "KOTAK MAHINDRA ASSET MANAGEMENT COMPANY LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Arun Singh",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Hiral Jhaveri",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 154621},
+      {"month": "Feb", "val": 510867},
+      {"month": "Mar", "val": 1104008},
+      {"month": "Apr", "val": 560711},
+      {"month": "May", "val": 153329},
+      {"month": "Jun", "val": 202009}
+    ],
+    "total_6m": 2685545,
+    "avg_monthly": 447591,
+    "target_3_5x": 1566568,
+    "target_1_1x": 1723225,
+    "jun_growth": 31.75
+  },
+  {
+    "id": 37,
+    "name": "FreshToHome Foods Pvt. Ltd.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Meghana N",
+    "team": "Mobility- KAM",
+    "region": "South",
+    "tl": "Ankit",
+    "csm": "Unassigned",
+    "crs": "AmanR",
+    "monthly": [
+      {"month": "Jan", "val": 288085},
+      {"month": "Feb", "val": 261092},
+      {"month": "Mar", "val": 1261116},
+      {"month": "Apr", "val": 295641},
+      {"month": "May", "val": 289815},
+      {"month": "Jun", "val": 278309}
+    ],
+    "total_6m": 2674058,
+    "avg_monthly": 445676,
+    "target_3_5x": 1559867,
+    "target_1_1x": 1715854,
+    "jun_growth": -3.97
+  },
+  {
+    "id": 38,
+    "name": "Senco Gold Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Paridhi Jain",
+    "team": "RAM",
+    "region": "North",
+    "tl": "Pranay",
+    "csm": "Smriti Nagrath",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 436175},
+      {"month": "Feb", "val": 1066253},
+      {"month": "Mar", "val": 201541},
+      {"month": "Apr", "val": 677494},
+      {"month": "May", "val": 79570},
+      {"month": "Jun", "val": 202070}
+    ],
+    "total_6m": 2663103,
+    "avg_monthly": 443851,
+    "target_3_5x": 1553477,
+    "target_1_1x": 1708824,
+    "jun_growth": 153.95
+  },
+  {
+    "id": 39,
+    "name": "Defmacro Software Private Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "CE",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Akash MH",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 205607},
+      {"month": "Feb", "val": 3277},
+      {"month": "Mar", "val": 5},
+      {"month": "Apr", "val": 161867},
+      {"month": "May", "val": 2448991},
+      {"month": "Jun", "val": 2610863}
+    ],
+    "total_6m": 5430610,
+    "avg_monthly": 435825,
+    "target_3_5x": 1525389,
+    "target_1_1x": 1677928,
+    "jun_growth": 6.61
+  },
+  {
+    "id": 40,
+    "name": "EMMA SLEEP INDIA PRIVATE LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Astha Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Lokesh Sharma",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 543264},
+      {"month": "Feb", "val": 624578},
+      {"month": "Mar", "val": 431685},
+      {"month": "Apr", "val": 245615},
+      {"month": "May", "val": 342631},
+      {"month": "Jun", "val": 388674}
+    ],
+    "total_6m": 2576447,
+    "avg_monthly": 429408,
+    "target_3_5x": 1502927,
+    "target_1_1x": 1653220,
+    "jun_growth": 13.44
+  },
+  {
+    "id": 41,
+    "name": "FABINDIA LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "CE",
+    "sales_am": "Astha Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Naveen",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 214226},
+      {"month": "Feb", "val": 366213},
+      {"month": "Mar", "val": 284155},
+      {"month": "Apr", "val": 443978},
+      {"month": "May", "val": 524813},
+      {"month": "Jun", "val": 728102}
+    ],
+    "total_6m": 2561487,
+    "avg_monthly": 426915,
+    "target_3_5x": 1494201,
+    "target_1_1x": 1643621,
+    "jun_growth": 38.74
+  },
+  {
+    "id": 42,
+    "name": "GIRNAR INSURANCE BROKERS PRIVATE LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Shubham Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Smriti Nagrath",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 563335},
+      {"month": "Feb", "val": 296184},
+      {"month": "Mar", "val": 513882},
+      {"month": "Apr", "val": 398878},
+      {"month": "May", "val": 467189},
+      {"month": "Jun", "val": 276189}
+    ],
+    "total_6m": 2515657,
+    "avg_monthly": 419276,
+    "target_3_5x": 1467467,
+    "target_1_1x": 1614213,
+    "jun_growth": -40.88
+  },
+  {
+    "id": 43,
+    "name": "TATA 1MG HEALTHCARE SOLUTIONS PRIVATE LIMITED",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Shubham Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Akash Gupta",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 745604},
+      {"month": "Feb", "val": 461885},
+      {"month": "Mar", "val": 778559},
+      {"month": "Apr", "val": 4032},
+      {"month": "May", "val": 364045},
+      {"month": "Jun", "val": 26161}
+    ],
+    "total_6m": 2380286,
+    "avg_monthly": 396714,
+    "target_3_5x": 1388500,
+    "target_1_1x": 1527350,
+    "jun_growth": -92.81
+  },
+  {
+    "id": 44,
+    "name": "BigHaat Agro Private Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Kunal Purohit",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Poornima",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 209942},
+      {"month": "Feb", "val": 383384},
+      {"month": "Mar", "val": 404370},
+      {"month": "Apr", "val": 552410},
+      {"month": "May", "val": 341887},
+      {"month": "Jun", "val": 336570}
+    ],
+    "total_6m": 2228563,
+    "avg_monthly": 371427,
+    "target_3_5x": 1299995,
+    "target_1_1x": 1429995,
+    "jun_growth": -1.55
+  },
+  {
+    "id": 45,
+    "name": "Atria Convergence Technologies Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Shwetha",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 213859},
+      {"month": "Feb", "val": 305265},
+      {"month": "Mar", "val": 137201},
+      {"month": "Apr", "val": 742930},
+      {"month": "May", "val": 341005},
+      {"month": "Jun", "val": 349721}
+    ],
+    "total_6m": 2089981,
+    "avg_monthly": 348330,
+    "target_3_5x": 1219156,
+    "target_1_1x": 1341071,
+    "jun_growth": 2.56
+  },
+  {
+    "id": 46,
+    "name": "YASHODA HEALTHCARE SERVICE PVT. LTD.",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Pranav Nand",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Unassigned",
+    "crs": "AmanR",
+    "monthly": [
+      {"month": "Jan", "val": 422969},
+      {"month": "Feb", "val": 367288},
+      {"month": "Mar", "val": 314561},
+      {"month": "Apr", "val": 311746},
+      {"month": "May", "val": 324359},
+      {"month": "Jun", "val": 245398}
+    ],
+    "total_6m": 1986321,
+    "avg_monthly": 331054,
+    "target_3_5x": 1158687,
+    "target_1_1x": 1274556,
+    "jun_growth": -24.34
+  },
+  {
+    "id": 47,
+    "name": "Genxlead Retail Private Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Aman Bothra",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Nivetha Kanan",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 333466},
+      {"month": "Feb", "val": 291846},
+      {"month": "Mar", "val": 362053},
+      {"month": "Apr", "val": 343683},
+      {"month": "May", "val": 307334},
+      {"month": "Jun", "val": 297335}
+    ],
+    "total_6m": 1935717,
+    "avg_monthly": 322620,
+    "target_3_5x": 1129168,
+    "target_1_1x": 1242085,
+    "jun_growth": -3.25
+  },
+  {
+    "id": 48,
+    "name": "GRT Jewellers (India) Pvt. Ltd.",
+    "interested": true,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Pitching / Interested",
+    "stage_order": 2,
+    "stage_badge": "Interested",
+    "badge_color": "amber",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "CE",
+    "sales_am": "Kunal Purohit",
+    "team": "KAM",
+    "region": "South",
+    "tl": "Pranay",
+    "csm": "Nivetha Kanan",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 22902},
+      {"month": "Feb", "val": 225545},
+      {"month": "Mar", "val": 12523},
+      {"month": "Apr", "val": 878780},
+      {"month": "May", "val": 192376},
+      {"month": "Jun", "val": 594358}
+    ],
+    "total_6m": 1926484,
+    "avg_monthly": 321081,
+    "target_3_5x": 1123782,
+    "target_1_1x": 1236161,
+    "jun_growth": 208.96
+  },
+  {
+    "id": 49,
+    "name": "Antara Assisted Care Services Limited",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Shubham Jain",
+    "team": "KAM",
+    "region": "North",
+    "tl": "Nagesh Banga",
+    "csm": "Unassigned",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 29812},
+      {"month": "Feb", "val": 188304},
+      {"month": "Mar", "val": 472489},
+      {"month": "Apr", "val": 296203},
+      {"month": "May", "val": 318714},
+      {"month": "Jun", "val": 574501}
+    ],
+    "total_6m": 1880023,
+    "avg_monthly": 313337,
+    "target_3_5x": 1096680,
+    "target_1_1x": 1206348,
+    "jun_growth": 80.26
+  },
+  {
+    "id": 50,
+    "name": "Bajaj Allianz Life Insurance Company Ltd",
+    "interested": false,
+    "max_price": false,
+    "started_vol": false,
+    "stage": "Target Pipeline",
+    "stage_order": 1,
+    "stage_badge": "Prospect",
+    "badge_color": "slate",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "Direct",
+    "sales_am": "Kapil Sharma",
+    "team": "SAM",
+    "region": "West",
+    "tl": "Pranay",
+    "csm": "Romit",
+    "crs": "Unassigned",
+    "monthly": [
+      {"month": "Jan", "val": 186828},
+      {"month": "Feb", "val": 273614},
+      {"month": "Mar", "val": 134403},
+      {"month": "Apr", "val": 215682},
+      {"month": "May", "val": 412268},
+      {"month": "Jun", "val": 614352}
+    ],
+    "total_6m": 1837147,
+    "avg_monthly": 306191,
+    "target_3_5x": 1071669,
+    "target_1_1x": 1178836,
+    "jun_growth": 49.02
+  },
+  {
+    "id": 51,
+    "name": "Nuvama Wealth and Investment Limited",
+    "interested": true,
+    "max_price": true,
+    "started_vol": false,
+    "stage": "MaxPrice Enabled",
+    "stage_order": 3,
+    "stage_badge": "Enabled",
+    "badge_color": "blue",
+    "tier": "Tier 4 (<500k/mo)",
+    "ce_api": "CE",
+    "sales_am": "Unnit Dedhia",
+    "team": "Mobility",
+    "region": "West",
+    "tl": "Ankit",
+    "csm": "Heena",
+    "crs": "Devansh Pandharkar",
+    "monthly": [
+      {"month": "Jan", "val": 220},
+      {"month": "Feb", "val": 55318},
+      {"month": "Mar", "val": 209359},
+      {"month": "Apr", "val": 318628},
+      {"month": "May", "val": 298431},
+      {"month": "Jun", "val": 383417}
+    ],
+    "total_6m": 1265373,
+    "avg_monthly": 210896,
+    "target_3_5x": 738134,
+    "target_1_1x": 811948,
+    "jun_growth": 28.48
+  }
+];
+
+    let currentSort = { col: 'id', asc: true };
+    let filteredClients = [...clientsData];
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      if (isDark) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        document.getElementById('theme-icon').innerText = '🌙';
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        document.getElementById('theme-icon').innerText = '☀️';
+        localStorage.setItem('theme', 'dark');
+      }
+      renderTable();
+    }
+
+    function formatNumber(num) {
+      if (num === null || num === undefined) return '0';
+      return Math.round(num).toLocaleString('en-IN');
+    }
+
+    function formatShortVol(num) {
+      if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return Math.round(num).toString();
+    }
+
+    function getStageBadgeHTML(stage) {
+      if (stage === 'MaxPrice Enabled') {
+        return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-100 dark:bg-cyan-500/10 text-sky-800 dark:text-cyan-300 border border-sky-200 dark:border-cyan-500/30">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-600 dark:bg-cyan-400"></span> MaxPrice Enabled
+        </span>`;
+      }
+      if (stage === 'Pitching / Interested') {
+        return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 dark:bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400"></span> Interested / Pitch
+        </span>`;
+      }
+      if (stage === 'Live Volume') {
+        return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30 animate-pulse">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span> Live Volume
+        </span>`;
+      }
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700/50">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Target Pipeline
+      </span>`;
+    }
+
+    function renderSparkline(monthly) {
+      const vals = monthly.map(m => m.val);
+      const max = Math.max(...vals, 1);
+      const width = 110;
+      const height = 24;
+      const pts = vals.map((v, i) => {
+        const x = (i / (vals.length - 1)) * (width - 6) + 3;
+        const y = height - (v / max) * (height - 6) - 3;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(' ');
+      
+      const lastVal = vals[vals.length - 1];
+      const prevVal = vals[vals.length - 2] || 0;
+      const isUp = lastVal >= prevVal;
+      const strokeColor = isUp ? '#059669' : '#d97706';
+
+      return `
+        <div class="inline-flex items-center gap-2">
+          <svg width="${width}" height="${height}" class="overflow-visible">
+            <polyline fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${pts}" />
+            ${vals.map((v, i) => {
+              const x = (i / (vals.length - 1)) * (width - 6) + 3;
+              const y = height - (v / max) * (height - 6) - 3;
+              return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i === vals.length - 1 ? 2.5 : 1}" fill="${strokeColor}" />`;
+            }).join('')}
+          </svg>
+          <span class="text-[10px] font-bold ${isUp ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${isUp ? '▲' : '▼'}</span>
+        </div>
+      `;
+    }
+
+    function renderCSMLeaderboard() {
+      const csmMap = {};
+      clientsData.forEach(c => {
+        const csm = c.csm || 'Unassigned';
+        if (!csmMap[csm]) {
+          csmMap[csm] = { name: csm, totalVol: 0, count: 0, engagedVol: 0, engagedCount: 0, enabledCount: 0, interestedCount: 0, clients: [] };
+        }
+        csmMap[csm].totalVol += c.avg_monthly;
+        csmMap[csm].count += 1;
+        csmMap[csm].clients.push(c);
+        if (c.max_price) {
+          csmMap[csm].enabledCount += 1;
+          csmMap[csm].engagedCount += 1;
+          csmMap[csm].engagedVol += c.avg_monthly;
+        } else if (c.interested) {
+          csmMap[csm].interestedCount += 1;
+          csmMap[csm].engagedCount += 1;
+          csmMap[csm].engagedVol += c.avg_monthly;
+        }
+      });
+
+      const list = Object.values(csmMap).sort((a, b) => b.totalVol - a.totalVol);
+      const container = document.getElementById('csm-grid-container');
+      container.innerHTML = '';
+
+      list.forEach((item, idx) => {
+        const pct = item.totalVol > 0 ? ((item.engagedVol / item.totalVol) * 100).toFixed(0) : 0;
+        const div = document.createElement('div');
+        div.className = `p-3.5 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
+          item.enabledCount > 0 
+            ? 'bg-sky-50/60 border-sky-200 dark:bg-slate-900 dark:border-cyan-800/40 hover:border-sky-400' 
+            : item.interestedCount > 0 
+            ? 'bg-amber-50/60 border-amber-200 dark:bg-slate-900 dark:border-amber-800/40 hover:border-amber-400' 
+            : 'bg-slate-50 dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-slate-700'
+        }`;
+        
+        div.onclick = () => {
+          document.getElementById('filter-csm').value = item.name;
+          applyFilters();
+          // scroll down smoothly to table
+          document.getElementById('clients-tbody').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        div.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between gap-1.5 mb-1.5">
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[10px] flex items-center justify-center font-bold">${idx + 1}</span>
+                <span class="font-extrabold text-slate-900 dark:text-white text-xs hover:text-indigo-600 transition">${item.name}</span>
+              </div>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                item.enabledCount > 0 
+                  ? 'bg-sky-100 text-sky-800 dark:bg-cyan-500/20 dark:text-cyan-300' 
+                  : item.interestedCount > 0 
+                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300' 
+                  : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+              }">${item.count} accts</span>
+            </div>
+            
+            <div class="flex items-baseline justify-between mt-2">
+              <span class="text-[11px] text-slate-500 font-medium">Portfolio Vol:</span>
+              <span class="font-black text-slate-900 dark:text-white font-mono text-sm">${formatShortVol(item.totalVol)}</span>
+            </div>
+          </div>
+
+          <div class="pt-2.5 mt-2.5 border-t border-slate-200/60 dark:border-slate-800/80 flex items-center justify-between text-[11px]">
+            <span class="text-slate-500">Adoption Pacing:</span>
+            <span class="font-bold ${item.engagedCount > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}">
+              ${item.engagedCount > 0 ? `${item.engagedCount} Engaged (${formatShortVol(item.engagedVol)})` : '0 Engaged'}
+            </span>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('clients-tbody');
+      tbody.innerHTML = '';
+
+      if (filteredClients.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-400 text-xs">No clients match the selected criteria.</td></tr>`;
+        return;
+      }
+
+      filteredClients.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition border-b border-slate-200/70 dark:border-slate-800/40 text-slate-700 dark:text-slate-300';
+        tr.innerHTML = `
+          <td class="py-3 px-3.5 font-mono text-slate-400 dark:text-slate-500">${c.id}</td>
+          <td class="py-3 px-4">
+            <div class="font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-300 cursor-pointer flex items-center gap-2" onclick="openModal(${c.id})">
+              <span>${c.name}</span>
+              ${c.ce_api === 'CE' ? '<span class="px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[9px] font-bold border border-indigo-200 dark:border-indigo-500/30">CE</span>' : ''}
+            </div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">${c.team} • ${c.tier}</div>
+          </td>
+          <td class="py-3 px-3">${getStageBadgeHTML(c.stage)}</td>
+          <td class="py-3 px-3">
+            <div class="font-bold text-indigo-900 dark:text-indigo-300 text-xs flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+              <span>${c.csm}</span>
+            </div>
+            <div class="text-[10px] text-slate-500">CRS: ${c.crs}</div>
+          </td>
+          <td class="py-3 px-3">
+            <div class="text-slate-800 dark:text-slate-200 font-semibold">${c.sales_am}</div>
+            <div class="text-[10px] text-slate-500">TL: ${c.tl} • ${c.region}</div>
+          </td>
+          <td class="py-3 px-3 text-right font-bold text-slate-900 dark:text-white font-mono">
+            ${formatShortVol(c.avg_monthly)}
+            <div class="text-[10px] text-slate-500 font-normal">(${formatNumber(c.avg_monthly)})</div>
+          </td>
+          <td class="py-3 px-4 text-center">
+            ${renderSparkline(c.monthly)}
+          </td>
+          <td class="py-3 px-3 text-right text-indigo-600 dark:text-indigo-300 font-bold font-mono">
+            ${formatShortVol(c.target_3_5x)}
+          </td>
+          <td class="py-3 px-3 text-right text-sky-600 dark:text-cyan-300 font-bold font-mono">
+            ${formatShortVol(c.target_1_1x)}
+          </td>
+          <td class="py-3 px-3 text-center">
+            <button onclick="openModal(${c.id})" class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-indigo-700 dark:text-indigo-300 font-semibold text-[11px] border border-slate-200 dark:border-slate-700 transition">
+              Inspect
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Update summaries
+      const totalFilteredVol = filteredClients.reduce((acc, c) => acc + c.avg_monthly, 0);
+      const engagedFilteredVol = filteredClients.filter(c => c.interested || c.max_price).reduce((acc, c) => acc + c.avg_monthly, 0);
+      document.getElementById('table-count-badge').innerText = `Showing ${filteredClients.length} of ${clientsData.length} Accounts`;
+      document.getElementById('filter-summary-text').innerText = `Showing ${filteredClients.length} of ${clientsData.length} clients`;
+      document.getElementById('filtered-vol-sum').innerText = formatShortVol(totalFilteredVol);
+      document.getElementById('filtered-engaged-sum').innerText = formatShortVol(engagedFilteredVol) + ` (${(totalFilteredVol ? (engagedFilteredVol/totalFilteredVol*100).toFixed(1) : 0)}%)`;
+    }
+
+    function sortTable(col) {
+      if (currentSort.col === col) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort.col = col;
+        currentSort.asc = (col === 'name' || col === 'region' || col === 'sales_am' || col === 'csm') ? true : false;
+      }
+
+      filteredClients.sort((a, b) => {
+        let valA = a[col];
+        let valB = b[col];
+        if (typeof valA === 'string') {
+          return currentSort.asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        return currentSort.asc ? valA - valB : valB - valA;
+      });
+
+      renderTable();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('search-input').value.toLowerCase().trim();
+      const stage = document.getElementById('filter-stage').value;
+      const region = document.getElementById('filter-region').value;
+      const tier = document.getElementById('filter-tier').value;
+      const csm = document.getElementById('filter-csm').value;
+
+      filteredClients = clientsData.filter(c => {
+        if (search && !c.name.toLowerCase().includes(search) && !c.sales_am.toLowerCase().includes(search) && !c.csm.toLowerCase().includes(search)) {
+          return false;
+        }
+        if (stage === 'ENABLED' && !c.max_price) return false;
+        if (stage === 'INTERESTED' && (!c.interested || c.max_price)) return false;
+        if (stage === 'PIPELINE' && (c.interested || c.max_price)) return false;
+        if (region !== 'ALL' && c.region !== region) return false;
+        if (tier !== 'ALL' && c.tier !== tier) return false;
+        if (csm !== 'ALL' && c.csm !== csm) return false;
+        return true;
+      });
+
+      renderTable();
+    }
+
+    function resetFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-stage').value = 'ALL';
+      document.getElementById('filter-region').value = 'ALL';
+      document.getElementById('filter-tier').value = 'ALL';
+      document.getElementById('filter-csm').value = 'ALL';
+      filteredClients = [...clientsData];
+      currentSort = { col: 'id', asc: true };
+      renderTable();
+    }
+
+    function populateCSMFilter() {
+      const csms = Array.from(new Set(clientsData.map(c => c.csm || 'Unassigned'))).sort();
+      const sel = document.getElementById('filter-csm');
+      sel.innerHTML = '<option value="ALL">All CSMs (18)</option>';
+      csms.forEach(csm => {
+        const opt = document.createElement('option');
+        opt.value = csm;
+        opt.innerText = csm;
+        sel.appendChild(opt);
+      });
+    }
+
+    // Scenario Simulator Calculations
+    const scenariosData = {
+      10: { adoption: 10, vol: 87903411, bid: 75596934, inr: 755969, usd: 8316 },
+      20: { adoption: 20, vol: 175806823, bid: 151193868, inr: 2267908, usd: 24947 },
+      30: { adoption: 30, vol: 263710234, bid: 226790802, inr: 5669770, usd: 62367 }
+    };
+
+    function setScenario(pct) {
+      ['10', '20', '30', 'custom'].forEach(id => {
+        const btn = document.getElementById(`btn-scen-${id}`);
+        if (id == pct) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow-xs';
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+        }
+      });
+
+      if (pct === 'custom') {
+        updateCustomScenario();
+        return;
+      }
+
+      document.getElementById('slider-adoption').value = pct;
+      document.getElementById('slider-val-adoption').innerText = `${pct}%`;
+      const data = scenariosData[pct];
+      document.getElementById('sim-vol').innerText = formatNumber(data.vol);
+      document.getElementById('sim-vol-mo').innerText = `~${formatShortVol(data.vol / 6)} monthly avg`;
+      document.getElementById('sim-bid').innerText = formatNumber(data.bid);
+      document.getElementById('sim-inr').innerText = `₹${formatNumber(data.inr)}`;
+      document.getElementById('sim-usd').innerText = `$${formatNumber(data.usd)} USD`;
+    }
+
+    function updateCustomScenario() {
+      const pct = parseFloat(document.getElementById('slider-adoption').value);
+      document.getElementById('slider-val-adoption').innerText = `${pct}%`;
+
+      ['10', '20', '30'].forEach(id => {
+        document.getElementById(`btn-scen-${id}`).className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+      });
+      document.getElementById('btn-scen-custom').className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow-xs';
+
+      const baseAddressable = 879034115;
+      const vol = baseAddressable * (pct / 100);
+      const bid = vol * 0.86;
+      let rate = 0.01;
+      if (pct >= 30) rate = 0.025;
+      else if (pct >= 20) rate = 0.015;
+      
+      const inr = bid * rate;
+      const usd = inr / 90.9;
+
+      document.getElementById('sim-vol').innerText = formatNumber(vol);
+      document.getElementById('sim-vol-mo').innerText = `~${formatShortVol(vol / 6)} monthly avg`;
+      document.getElementById('sim-bid').innerText = formatNumber(bid);
+      document.getElementById('sim-inr').innerText = `₹${formatNumber(inr)}`;
+      document.getElementById('sim-usd').innerText = `$${formatNumber(usd)} USD`;
+    }
+
+    function openModal(id) {
+      const client = clientsData.find(c => c.id === id);
+      if (!client) return;
+
+      const modalContent = document.getElementById('modal-content');
+      modalContent.innerHTML = `
+        <div class="space-y-5">
+          <!-- Modal Header -->
+          <div class="flex items-start justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-mono text-xs font-bold border border-indigo-200 dark:border-indigo-500/30">Rank #${client.id}</span>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">${client.name}</h3>
+              </div>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">CSM Owner: <b class="text-indigo-600 dark:text-indigo-400">${client.csm}</b> • ${client.team} • ${client.region} Region • ${client.tier}</p>
+            </div>
+            <div>
+              ${getStageBadgeHTML(client.stage)}
+            </div>
+          </div>
+
+          <!-- Quick Metrics -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="bg-slate-50 dark:bg-slate-950/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 text-[10px] font-medium">Avg Monthly Vol</span>
+              <div class="text-base font-extrabold text-slate-900 dark:text-white font-mono mt-0.5">${formatShortVol(client.avg_monthly)}</div>
+              <span class="text-[10px] text-slate-500">${formatNumber(client.avg_monthly)} msgs</span>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-950/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 text-[10px] font-medium">6-Month Total</span>
+              <div class="text-base font-extrabold text-indigo-600 dark:text-indigo-300 font-mono mt-0.5">${formatShortVol(client.total_6m)}</div>
+              <span class="text-[10px] text-slate-500">Jan to Jun total</span>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-950/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 text-[10px] font-medium">*3.5 Target Vol</span>
+              <div class="text-base font-extrabold text-sky-600 dark:text-cyan-300 font-mono mt-0.5">${formatShortVol(client.target_3_5x)}</div>
+              <span class="text-[10px] text-slate-500">MaxPrice Upside</span>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-950/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 text-[10px] font-medium">*1.1 Growth Vol</span>
+              <div class="text-base font-extrabold text-emerald-600 dark:text-emerald-300 font-mono mt-0.5">${formatShortVol(client.target_1_1x)}</div>
+              <span class="text-[10px] text-slate-500">Conservative Baseline</span>
+            </div>
+          </div>
+
+          <!-- 6-Month History Breakdown -->
+          <div>
+            <h4 class="text-xs font-bold text-slate-800 dark:text-slate-300 mb-2">Month-by-Month Message Volume (Jan - Jun)</h4>
+            <div class="grid grid-cols-6 gap-2 text-center text-xs">
+              ${client.monthly.map(m => `
+                <div class="bg-slate-50 dark:bg-slate-950/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <span class="text-[10px] text-slate-500 font-bold">${m.month}</span>
+                  <div class="font-bold text-slate-900 dark:text-slate-200 mt-1 font-mono text-[11px]">${formatShortVol(m.val)}</div>
+                  <div class="text-[9px] text-slate-400 truncate">${formatNumber(m.val)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Stakeholder Matrix -->
+          <div class="bg-slate-50 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+            <h4 class="text-xs font-bold text-slate-800 dark:text-slate-300 mb-2">Account Ownership Matrix</h4>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div>
+                <span class="text-[10px] text-slate-500 font-medium">CSM (Driver)</span>
+                <div class="font-extrabold text-indigo-700 dark:text-indigo-300">${client.csm}</div>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-500 font-medium">CRS</span>
+                <div class="font-bold text-slate-800 dark:text-slate-200">${client.crs}</div>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-500 font-medium">Sales AM</span>
+                <div class="font-bold text-slate-800 dark:text-slate-200">${client.sales_am}</div>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-500 font-medium">Team Lead (TL)</span>
+                <div class="font-bold text-slate-800 dark:text-slate-200">${client.tl}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Next Recommended Action -->
+          <div class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/40 text-xs">
+            <span class="font-bold text-indigo-900 dark:text-indigo-300">CSM Driver Action Plan:</span>
+            <p class="text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">
+              ${client.max_price 
+                ? `Account has MaxPrice configured! CSM (<b>${client.csm}</b>) should trigger the first live broadcast test campaign immediately with client tech POC.` 
+                : client.interested 
+                ? `Account is actively in pitch review. CSM (<b>${client.csm}</b>) should coordinate with Sales AM (<b>${client.sales_am}</b>) to finalize bid floor and test whitelist.` 
+                : `Prospect in general pool (${formatShortVol(client.avg_monthly)}/mo). CSM (<b>${client.csm}</b>) to initiate MaxPrice pitch during next weekly sync.`}
+            </p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('client-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('client-modal').classList.add('hidden');
+    }
+
+    function exportCSV() {
+      const headers = ['ID', 'Client Name', 'Stage', 'Interested', 'MaxPrice Enabled', 'CSM', 'CRS', 'Sales AM', 'Team', 'Region', 'TL', 'Avg Monthly Vol', '6M Total', '3.5x Target', '1.1x Target'];
+      const rows = filteredClients.map(c => [
+        c.id,
+        `"${c.name}"`,
+        `"${c.stage}"`,
+        c.interested ? 'Y' : 'N',
+        c.max_price ? 'Y' : 'N',
+        `"${c.csm}"`,
+        `"${c.crs}"`,
+        `"${c.sales_am}"`,
+        `"${c.team}"`,
+        `"${c.region}"`,
+        `"${c.tl}"`,
+        c.avg_monthly,
+        c.total_6m,
+        c.target_3_5x,
+        c.target_1_1x
+      ]);
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `max_price_csm_tracker_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.getElementById('client-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'client-modal') closeModal();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      populateCSMFilter();
+      renderCSMLeaderboard();
+      renderTable();
+    });
+  </script>
+</body>
+</html>
