@@ -94,220 +94,91 @@
   <!-- Main Container -->
   <main class="max-w-[1700px] mx-auto p-4 md:p-6 space-y-6">
 
-    <!-- EXPANDABLE WEEK-ON-WEEK (WoW) PROGRESS BAR -->
-    <section class="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden transition-all duration-300">
-      <!-- Collapsed Header / Toggle Bar -->
-      <div onclick="toggleWoWTracker()" class="p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition select-none">
+    <!-- WOW-TRACKER-START -->
+    <section id="wow-section" class="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+      <!-- Header bar - always visible, clickable to expand -->
+      <div id="wow-header-bar" onclick="toggleWoWTracker()" class="p-4 px-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition select-none">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm border border-indigo-100 dark:border-indigo-800 shadow-2xs">
-            📅
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm border border-indigo-100">
+            &#128197;
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Week-on-Week (WoW) Campaign Sprint Progress</h2>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 text-[11px] font-bold">Week 1 (Kickoff)</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 class="text-sm font-bold text-slate-900">Week-on-Week (WoW) Campaign Tracker</h2>
+              <span id="wow-week-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">Loading...</span>
             </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Tracking Weekly Enabled Growth, Pilot Broadcasts & Pacing towards 27.28 Cr Target</p>
+            <p class="text-xs text-slate-500 mt-0.5">Auto-calculates from account stages &bull; Snapshots saved weekly &bull; Mid-Sept to 31 Dec</p>
           </div>
         </div>
-
-        <!-- Right Side Quick Indicators & Expand Button -->
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-4">
           <div class="hidden md:flex items-center gap-4 text-xs font-semibold">
-            <div class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-sky-500"></span>
-              <span class="text-slate-600 dark:text-slate-300">Enabled: <b>3.26 Cr</b> (5 accts)</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-              <span class="text-slate-600 dark:text-slate-300">In Pitch: <b>9.68 Cr</b> (6 accts)</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span class="text-emerald-700 dark:text-emerald-400">Pacing: <b>47.4%</b></span>
-            </div>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-500 inline-block"></span><span class="text-slate-600">Enabled: <b id="wow-hdr-enabled">--</b></span></span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span><span class="text-slate-600">Pitching: <b id="wow-hdr-pitching">--</b></span></span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span><span class="text-emerald-700">Pacing: <b id="wow-hdr-pacing">--</b></span></span>
           </div>
-
-          <button id="wow-toggle-btn" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
+          <button id="wow-toggle-btn" onclick="toggleWoWTracker(); event.stopPropagation();" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 border border-slate-200">
             <span id="wow-toggle-text">Expand WoW Tracker</span>
-            <span id="wow-toggle-arrow" class="transition-transform duration-200 text-xs">▼</span>
+            <span id="wow-toggle-arrow" class="text-xs inline-block transition-transform duration-200">&#9660;</span>
           </button>
         </div>
       </div>
 
-      <!-- Expandable Drawer Content -->
-      <div id="wow-drawer-content" class="hidden border-t border-slate-200 dark:border-slate-800 p-5 sm:p-6 bg-slate-50/50 dark:bg-slate-950/40 space-y-6">
-        
-        <!-- Timeline Stage Bar -->
-        <div class="space-y-2">
-          <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-700 dark:text-slate-300">3.5-Month Campaign Milestones (Mid-Sept to Dec 31):</span>
-            <span class="font-bold text-indigo-600 dark:text-indigo-400">Current Phase: Phase 1 (Live Activation)</span>
+      <!-- Expandable drawer -->
+      <div id="wow-drawer" style="display:none;" class="border-t border-slate-200 p-5 bg-slate-50 space-y-5">
+
+        <!-- Campaign Phase Progress Bar -->
+        <div>
+          <div class="flex justify-between items-center text-xs mb-2">
+            <span class="font-bold text-slate-700">3.5-Month Campaign Phases (Mid-Sept to Dec 31):</span>
+            <span id="wow-phase-label" class="font-bold text-indigo-600"></span>
           </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs">
-            <!-- Phase 1 -->
-            <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-sky-300 dark:border-cyan-700/60 shadow-2xs relative overflow-hidden">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <div id="wow-ph-1" class="p-3 rounded-xl bg-white border relative overflow-hidden">
               <div class="absolute top-0 left-0 right-0 h-1 bg-sky-500"></div>
-              <div class="flex justify-between items-center text-[10px] text-sky-700 dark:text-cyan-400 font-bold mb-1">
-                <span>PHASE 1 (W1 - W3)</span>
-                <span class="px-1.5 py-0.2 bg-sky-100 dark:bg-cyan-500/20 rounded">Active</span>
-              </div>
-              <div class="font-black text-slate-900 dark:text-white text-xs">Live Traffic Activation</div>
-              <p class="text-[11px] text-slate-500 mt-1">Start broadcasts on 5 enabled accounts (ICICI, Souled Store, Anveshan, Join Ventures, Nuvama).</p>
-              <div class="mt-2 text-[10px] font-bold text-sky-700 dark:text-cyan-300">Target: 3.26 Cr Volume</div>
+              <div class="text-[10px] text-sky-700 font-bold mb-1 flex justify-between"><span>PHASE 1 (W1-W3)</span><span id="wow-ph1-badge" class=""></span></div>
+              <div class="font-black text-slate-900 text-xs">Live Activation</div>
+              <p class="text-[11px] text-slate-500 mt-1">5 accounts broadcasting: ICICI, Souled Store, Anveshan, Join Ventures, Nuvama.</p>
+              <div class="mt-1 text-[10px] font-bold text-sky-700">Target: 3.26 Cr msgs</div>
             </div>
-
-            <!-- Phase 2 -->
-            <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-700/40 shadow-2xs relative overflow-hidden">
+            <div id="wow-ph-2" class="p-3 rounded-xl bg-white border relative overflow-hidden">
               <div class="absolute top-0 left-0 right-0 h-1 bg-amber-400"></div>
-              <div class="flex justify-between items-center text-[10px] text-amber-700 dark:text-amber-400 font-bold mb-1">
-                <span>PHASE 2 (W4 - W7)</span>
-                <span class="text-slate-400">Upcoming</span>
-              </div>
-              <div class="font-black text-slate-900 dark:text-white text-xs">Whale Pitch Conversion</div>
-              <p class="text-[11px] text-slate-500 mt-1">Convert Poonawalla Fincorp (4.63 Cr) & TVS Credit (3.28 Cr) to Enabled.</p>
-              <div class="mt-2 text-[10px] font-bold text-amber-700 dark:text-amber-300">Target: 9.68 Cr Volume</div>
+              <div class="text-[10px] text-amber-700 font-bold mb-1 flex justify-between"><span>PHASE 2 (W4-W7)</span><span id="wow-ph2-badge" class="text-slate-400"></span></div>
+              <div class="font-black text-slate-900 text-xs">Whale Conversion</div>
+              <p class="text-[11px] text-slate-500 mt-1">Convert Poonawalla Fincorp (4.63 Cr) &amp; TVS Credit (3.28 Cr) to Enabled.</p>
+              <div class="mt-1 text-[10px] font-bold text-amber-700">Target: 9.68 Cr msgs</div>
             </div>
-
-            <!-- Phase 3 -->
-            <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs relative overflow-hidden">
-              <div class="absolute top-0 left-0 right-0 h-1 bg-slate-300 dark:bg-slate-700"></div>
-              <div class="flex justify-between items-center text-[10px] text-slate-400 font-bold mb-1">
-                <span>PHASE 3 (W8 - W11)</span>
-                <span class="text-slate-400">Nov Festive Push</span>
-              </div>
-              <div class="font-black text-slate-900 dark:text-white text-xs">Scale & Traffic Ramp</div>
-              <p class="text-[11px] text-slate-500 mt-1">Direct API routing & peak traffic ramp across Max Life, Ujjivan SFB & mid-tier clients.</p>
-              <div class="mt-2 text-[10px] font-bold text-slate-700 dark:text-slate-300">Target: 7.90 Cr Volume</div>
+            <div id="wow-ph-3" class="p-3 rounded-xl bg-white border border-slate-200 relative overflow-hidden">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-slate-300"></div>
+              <div class="text-[10px] text-slate-400 font-bold mb-1 flex justify-between"><span>PHASE 3 (W8-W11)</span><span id="wow-ph3-badge" class="text-slate-400"></span></div>
+              <div class="font-black text-slate-900 text-xs">Nov Festive Ramp</div>
+              <p class="text-[11px] text-slate-500 mt-1">Peak traffic ramp across Max Life, Ujjivan SFB &amp; mid-tier clients.</p>
+              <div class="mt-1 text-[10px] font-bold text-slate-600">Target: 7.90 Cr msgs</div>
             </div>
-
-            <!-- Phase 4 -->
-            <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-800/40 shadow-2xs relative overflow-hidden">
+            <div id="wow-ph-4" class="p-3 rounded-xl bg-white border border-emerald-200 relative overflow-hidden">
               <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
-              <div class="flex justify-between items-center text-[10px] text-emerald-700 dark:text-emerald-400 font-bold mb-1">
-                <span>PHASE 4 (W12 - W15)</span>
-                <span class="text-emerald-600 font-bold">Dec 31 Close</span>
-              </div>
-              <div class="font-black text-slate-900 dark:text-white text-xs">Threshold & Incentive Lock</div>
-              <p class="text-[11px] text-slate-500 mt-1">Deliver cumulative 27.28 Cr volume and unlock maximum team incentive tiers.</p>
-              <div class="mt-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">Target: 27.28 Cr Total</div>
+              <div class="text-[10px] text-emerald-700 font-bold mb-1 flex justify-between"><span>PHASE 4 (W12-W15)</span><span id="wow-ph4-badge" class="text-emerald-600 font-bold"></span></div>
+              <div class="font-black text-slate-900 text-xs">Dec Threshold Lock</div>
+              <p class="text-[11px] text-slate-500 mt-1">Deliver cumulative 27.28 Cr and unlock team incentive tiers.</p>
+              <div class="mt-1 text-[10px] font-bold text-emerald-700">Target: 27.28 Cr total</div>
             </div>
           </div>
         </div>
 
-        <!-- Weekly Progress Tracking Log Grid -->
+        <!-- Weekly Sprint Cards (scrollable) -->
         <div>
-          <div class="flex justify-between items-center mb-2.5">
-            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Weekly Sprint Progress Log:</span>
-            <span class="text-[11px] text-slate-500">Updated weekly with actual live broadcast delivery</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-            <!-- Week 1 Log -->
-            <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-indigo-200 dark:border-indigo-800/60 shadow-2xs space-y-2">
-              <div class="flex justify-between items-center">
-                <span class="font-black text-slate-900 dark:text-white text-xs">Week 1 (Sep 1 - 7)</span>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 font-bold text-[10px]">Current</span>
-              </div>
-              <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
-                <div class="flex justify-between">
-                  <span>Enabled Accounts:</span>
-                  <b class="text-sky-600 dark:text-cyan-400">5 (+2 Souled Store, ICICI)</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Interested Pitches:</span>
-                  <b class="text-amber-600 dark:text-amber-400">6 (Inc. Poonawalla)</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Engaged Volume:</span>
-                  <b class="text-emerald-600 dark:text-emerald-400">12.94 Cr (47.4%)</b>
-                </div>
-              </div>
-              <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-500">
-                Key focus: Configure live pilot campaigns for the 5 enabled accounts.
-              </div>
-            </div>
-
-            <!-- Week 2 Log -->
-            <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs space-y-2 opacity-90">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-slate-800 dark:text-slate-200 text-xs">Week 2 (Sep 8 - 14)</span>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 font-semibold text-[10px]">Target</span>
-              </div>
-              <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
-                <div class="flex justify-between">
-                  <span>Target Enabled:</span>
-                  <b class="text-slate-800 dark:text-slate-200">7 Accounts (+2)</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Live Volume Goal:</span>
-                  <b class="text-slate-800 dark:text-slate-200">50L+ msgs</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Key Conversion:</span>
-                  <b class="text-indigo-600 dark:text-indigo-400">TVS Credit Whitelist</b>
-                </div>
-              </div>
-              <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-500">
-                Key focus: Launch initial live broadcasts on ICICI Pru & Souled Store.
-              </div>
-            </div>
-
-            <!-- Week 3 Log -->
-            <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs space-y-2 opacity-80">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-slate-800 dark:text-slate-200 text-xs">Week 3 (Sep 15 - 21)</span>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 font-semibold text-[10px]">Mid-Sept Launch</span>
-              </div>
-              <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
-                <div class="flex justify-between">
-                  <span>Target Enabled:</span>
-                  <b class="text-slate-800 dark:text-slate-200">9 Accounts</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Campaign Runrate:</span>
-                  <b class="text-slate-800 dark:text-slate-200">1.2 Cr / week</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Whale Pitch:</span>
-                  <b class="text-indigo-600 dark:text-indigo-400">Poonawalla Fincorp</b>
-                </div>
-              </div>
-              <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-500">
-                Official campaign kickoff with all active CSM accounts live.
-              </div>
-            </div>
-
-            <!-- Week 4 Log -->
-            <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs space-y-2 opacity-80">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-slate-800 dark:text-slate-200 text-xs">Week 4 (Sep 22 - 30)</span>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 font-semibold text-[10px]">Sep Close</span>
-              </div>
-              <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
-                <div class="flex justify-between">
-                  <span>Target Delivery:</span>
-                  <b class="text-slate-800 dark:text-slate-200">3.5 Cr Cumulative</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>Engaged Target:</span>
-                  <b class="text-slate-800 dark:text-slate-200">60%+ of Pool</b>
-                </div>
-                <div class="flex justify-between">
-                  <span>New Pitches:</span>
-                  <b class="text-indigo-600 dark:text-indigo-400">Max Life Insurance</b>
-                </div>
-              </div>
-              <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-500">
-                Review Sep month-end delivery and lock Q4 festive allocation.
-              </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-xs font-bold text-slate-700">Weekly Sprint Log -- Stage Movements &amp; Snapshots:</span>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-slate-400">Snapshot auto-saved first open each week</span>
+              <button onclick="wowClearHistory(event)" class="px-2 py-0.5 rounded text-[10px] font-semibold text-slate-500 hover:text-red-600 border border-slate-200 hover:border-red-300 transition bg-white">Reset History</button>
             </div>
           </div>
+          <div id="wow-week-grid" class="flex gap-3 overflow-x-auto pb-2" style="scrollbar-width:thin;"></div>
         </div>
 
       </div>
     </section>
+    <!-- WOW-TRACKER-END -->
 
     <!-- KPI Cards Grid (Campaign Focused with Percentage Badges on All Tabs) -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -2303,22 +2174,7 @@
     let currentSort = { col: 'id', asc: true };
     let filteredClients = [...clientsData];
 
-    function toggleWoWTracker() {
-      const drawer = document.getElementById('wow-drawer-content');
-      const arrow = document.getElementById('wow-toggle-arrow');
-      const text = document.getElementById('wow-toggle-text');
-      const isHidden = drawer.classList.contains('hidden');
-      
-      if (isHidden) {
-        drawer.classList.remove('hidden');
-        arrow.style.transform = 'rotate(180deg)';
-        text.innerText = 'Collapse WoW Tracker';
-      } else {
-        drawer.classList.add('hidden');
-        arrow.style.transform = 'rotate(0deg)';
-        text.innerText = 'Expand WoW Tracker';
-      }
-    }
+    
 
     function toggleTheme() {
       const html = document.documentElement;
@@ -2804,6 +2660,436 @@
       document.body.removeChild(link);
     }
 
+    // ═══════════════════════════════════════════════════════
+    // WoW TRACKER — Auto-calculating, localStorage-backed
+    // ═══════════════════════════════════════════════════════
+
+    const WOW_CAMPAIGN_START = new Date('2026-09-01'); // Week 1 start
+    const WOW_TOTAL_WEEKS = 15;
+    const WOW_CAMPAIGN_TARGET = 272789108; // 27.28 Cr msgs
+
+    // Week date ranges (W1 = Sep 1)
+    function wowWeekRange(weekNum) {
+      const start = new Date(WOW_CAMPAIGN_START);
+      start.setDate(start.getDate() + (weekNum - 1) * 7);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      const fmt = d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+      return { start, end, label: `${fmt(start)} – ${fmt(end)}` };
+    }
+
+    function wowCurrentWeek() {
+      const now = new Date();
+      const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+      const diff = now - WOW_CAMPAIGN_START;
+      if (diff < 0) return 1;
+      const w = Math.floor(diff / msPerWeek) + 1;
+      return Math.min(w, WOW_TOTAL_WEEKS);
+    }
+
+    function wowSnapshotKey(weekNum) {
+      return `maxprice_wow_w${weekNum}`;
+    }
+
+    function wowBuildSnapshot() {
+      const enabled = clientsData.filter(c => c.max_price);
+      const pitching = clientsData.filter(c => c.interested && !c.max_price);
+      const engagedVol = [...enabled, ...pitching].reduce((s, c) => s + (c.target_3_5x_growth || 0), 0);
+      const pct = ((engagedVol / WOW_CAMPAIGN_TARGET) * 100).toFixed(1);
+      return {
+        week: wowCurrentWeek(),
+        date: new Date().toISOString(),
+        enabled: enabled.map(c => c.name),
+        pitching: pitching.map(c => c.name),
+        enabledVol: enabled.reduce((s, c) => s + (c.target_3_5x_growth || 0), 0),
+        pitchingVol: pitching.reduce((s, c) => s + (c.target_3_5x_growth || 0), 0),
+        engagedVol,
+        pct: parseFloat(pct),
+      };
+    }
+
+    function wowLoadHistory() {
+      const hist = {};
+      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
+        const raw = localStorage.getItem(wowSnapshotKey(w));
+        if (raw) {
+          try { hist[w] = JSON.parse(raw); } catch(e) {}
+        }
+      }
+      return hist;
+    }
+
+    function wowSaveCurrentSnapshot() {
+      const w = wowCurrentWeek();
+      const key = wowSnapshotKey(w);
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, JSON.stringify(wowBuildSnapshot()));
+      }
+    }
+
+    function wowDetectMovements(prev, curr) {
+      if (!prev) return { toEnabled: [], toPitching: [], newPitches: [] };
+      const toEnabled = curr.enabled.filter(n => !prev.enabled.includes(n) && prev.pitching.includes(n));
+      const toPitching = curr.pitching.filter(n => !prev.pitching.includes(n) && !prev.enabled.includes(n));
+      const movedFromTarget = curr.pitching.filter(n => !prev.pitching.includes(n) && !prev.enabled.includes(n));
+      return { toEnabled, toPitching: movedFromTarget };
+    }
+
+    function wowShortVol(n) {
+      if (!n) return '0';
+      if (n >= 1e7) return (n / 1e7).toFixed(2) + ' Cr';
+      if (n >= 1e5) return (n / 1e5).toFixed(1) + 'L';
+      return n.toLocaleString('en-IN');
+    }
+
+    function wowRenderWeekCard(weekNum, snapshot, prevSnapshot, isCurrent, isBlank) {
+      const range = wowWeekRange(weekNum);
+      const isFuture = weekNum > wowCurrentWeek();
+      let phaseNum = weekNum <= 3 ? 1 : weekNum <= 7 ? 2 : weekNum <= 11 ? 3 : 4;
+      const phaseColors = ['', 'text-sky-600', 'text-amber-600', 'text-slate-500', 'text-emerald-600'];
+
+      let borderCls = isCurrent
+        ? 'border-indigo-300 dark:border-indigo-700/60 ring-2 ring-indigo-500/20'
+        : isFuture
+        ? 'border-slate-200 dark:border-slate-800 opacity-60'
+        : 'border-slate-200 dark:border-slate-800';
+
+      let statusBadge = isCurrent
+        ? `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 font-bold text-[10px]">Current</span>`
+        : isFuture
+        ? `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 font-semibold text-[10px]">Upcoming</span>`
+        : `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 font-semibold text-[10px]">Done</span>`;
+
+      let innerContent;
+
+      if (isBlank || isFuture) {
+        // Future week or no snapshot yet
+        innerContent = `
+          <div class="space-y-1 text-[11px] text-slate-500 dark:text-slate-500 mt-1">
+            <div class="flex justify-between"><span>Enabled:</span> <b class="text-slate-400">—</b></div>
+            <div class="flex justify-between"><span>Pitching:</span> <b class="text-slate-400">—</b></div>
+            <div class="flex justify-between"><span>Pacing:</span> <b class="text-slate-400">—</b></div>
+          </div>
+          <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 italic">
+            Snapshot auto-saved on first open of this week.
+          </div>`;
+      } else {
+        // Has data
+        const movements = wowDetectMovements(prevSnapshot, snapshot);
+        const movHtml = [
+          ...movements.toEnabled.map(n => `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold text-[10px]">✅ ${n} → Enabled</span>`),
+          ...movements.toPitching.map(n => `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold text-[10px]">🔥 ${n} → Pitching</span>`)
+        ].join('');
+
+        innerContent = `
+          <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400 mt-1">
+            <div class="flex justify-between"><span>Enabled:</span> <b class="text-sky-600 dark:text-cyan-400">${snapshot.enabled.length} accts · ${wowShortVol(snapshot.enabledVol)}</b></div>
+            <div class="flex justify-between"><span>Pitching:</span> <b class="text-amber-600 dark:text-amber-400">${snapshot.pitching.length} accts · ${wowShortVol(snapshot.pitchingVol)}</b></div>
+            <div class="flex justify-between"><span>Pacing:</span> <b class="text-emerald-600 dark:text-emerald-400">${snapshot.pct}% of 27.28 Cr</b></div>
+          </div>
+          ${movHtml ? `<div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1 mt-1">${movHtml}</div>` : `<div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 italic">No stage movements this week.</div>`}`;
+      }
+
+      return `
+        <div class="flex-none w-52 bg-white dark:bg-slate-900 p-3.5 rounded-xl border ${borderCls} shadow-2xs space-y-1.5">
+          <div class="flex justify-between items-center">
+            <span class="font-black text-slate-900 dark:text-white text-xs">W${weekNum} · ${range.label}</span>
+            ${statusBadge}
+          </div>
+          <div class="text-[10px] font-bold ${phaseColors[phaseNum]}">Phase ${phaseNum}</div>
+          ${innerContent}
+        </div>`;
+    }
+
+    function wowRender() {
+      const history = wowLoadHistory();
+      const curW = wowCurrentWeek();
+      const curSnap = history[curW] || wowBuildSnapshot();
+
+      // Header quick stats
+      document.getElementById('wow-hdr-enabled').textContent = `${curSnap.enabled.length} accts · ${wowShortVol(curSnap.enabledVol)}`;
+      document.getElementById('wow-hdr-pitching').textContent = `${curSnap.pitching.length} accts · ${wowShortVol(curSnap.pitchingVol)}`;
+      document.getElementById('wow-hdr-pacing').textContent = `${curSnap.pct}%`;
+
+      // Current week badge in header
+      const range = wowWeekRange(curW);
+      document.getElementById('wow-current-week-badge').textContent = `Week ${curW} · ${range.label}`;
+
+      // Phase badge logic
+      const phaseMap = { 1: [1,3], 2: [4,7], 3: [8,11], 4: [12,15] };
+      let currentPhase = 1;
+      for (const [ph, [s, e]] of Object.entries(phaseMap)) {
+        if (curW >= s && curW <= e) { currentPhase = parseInt(ph); break; }
+      }
+      const phaseLabels = { 1: 'Phase 1: Live Activation', 2: 'Phase 2: Whale Conversion', 3: 'Phase 3: Nov Festive Ramp', 4: 'Phase 4: Dec Threshold Lock' };
+      document.getElementById('wow-current-phase-label').textContent = `Current: ${phaseLabels[currentPhase]}`;
+
+      // Phase card borders
+      for (let p = 1; p <= 4; p++) {
+        const el = document.getElementById(`wow-phase-${p}`);
+        const badgeEl = document.getElementById(`wow-phase-${p}-badge`);
+        const [ps, pe] = phaseMap[p];
+        if (p === currentPhase) {
+          el.classList.add('border-sky-300', 'dark:border-cyan-700/60');
+          el.classList.remove('border-slate-200', 'dark:border-slate-800');
+          badgeEl.textContent = 'Active';
+          badgeEl.className = 'px-1.5 py-0.5 rounded bg-sky-100 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-400 text-[10px] font-bold';
+        } else if (curW > pe) {
+          badgeEl.textContent = 'Done ✓';
+          badgeEl.className = 'px-1.5 py-0.5 rounded text-slate-400 text-[10px] font-semibold';
+        } else {
+          badgeEl.textContent = 'Upcoming';
+          badgeEl.className = 'text-slate-400 text-[10px]';
+        }
+      }
+
+      // Build week cards
+      const grid = document.getElementById('wow-week-grid');
+      grid.innerHTML = '';
+      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
+        const snap = history[w];
+        const prevSnap = history[w - 1] || null;
+        const isCurrent = w === curW;
+        const isFuture = w > curW;
+        const isBlank = !snap;
+        grid.innerHTML += wowRenderWeekCard(w, snap, prevSnap, isCurrent, isBlank);
+      }
+
+      // Auto-scroll to current week
+      setTimeout(() => {
+        const cards = grid.querySelectorAll('div[class*="flex-none"]');
+        if (cards[curW - 1]) {
+          cards[curW - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }, 100);
+    }
+
+    function wowClearHistory(e) {
+      e.stopPropagation();
+      if (!confirm('Clear all WoW weekly snapshots? This cannot be undone.')) return;
+      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
+        localStorage.removeItem(wowSnapshotKey(w));
+      }
+      wowRender();
+    }
+
+
+    // =====================================================
+    // WoW TRACKER - Auto-calculating, localStorage-backed
+    // =====================================================
+    var WOW_CAM_START = new Date('2026-09-01');
+    var WOW_TOTAL_WEEKS = 15;
+    var WOW_CAM_TARGET = 272789108; // 27.28 Cr
+
+    function wowWeekDates(w) {
+      var s = new Date(WOW_CAM_START);
+      s.setDate(s.getDate() + (w - 1) * 7);
+      var e = new Date(s);
+      e.setDate(e.getDate() + 6);
+      function fmt(d) {
+        return d.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      }
+      return { start: s, end: e, label: fmt(s) + ' - ' + fmt(e) };
+    }
+
+    function wowCurWeek() {
+      var now = new Date();
+      var diff = now - WOW_CAM_START;
+      if (diff < 0) return 1;
+      var w = Math.floor(diff / (7 * 24 * 3600 * 1000)) + 1;
+      return Math.min(w, WOW_TOTAL_WEEKS);
+    }
+
+    function wowKey(w) { return 'mpwow_w' + w; }
+
+    function wowSnap() {
+      var enabled = clientsData.filter(function(c){ return c.max_price; });
+      var pitching = clientsData.filter(function(c){ return c.interested && !c.max_price; });
+      var eVol = enabled.reduce(function(s,c){ return s + (c.target_3_5x_growth||0); }, 0);
+      var pVol = pitching.reduce(function(s,c){ return s + (c.target_3_5x_growth||0); }, 0);
+      var engVol = eVol + pVol;
+      return {
+        week: wowCurWeek(),
+        date: new Date().toISOString(),
+        enabled: enabled.map(function(c){ return c.name; }),
+        pitching: pitching.map(function(c){ return c.name; }),
+        eVol: eVol, pVol: pVol, engVol: engVol,
+        pct: parseFloat(((engVol / WOW_CAM_TARGET) * 100).toFixed(1))
+      };
+    }
+
+    function wowHistory() {
+      var h = {};
+      for (var w = 1; w <= WOW_TOTAL_WEEKS; w++) {
+        var raw = localStorage.getItem(wowKey(w));
+        if (raw) { try { h[w] = JSON.parse(raw); } catch(e){} }
+      }
+      return h;
+    }
+
+    function wowSaveSnap() {
+      var w = wowCurWeek();
+      var k = wowKey(w);
+      if (!localStorage.getItem(k)) {
+        localStorage.setItem(k, JSON.stringify(wowSnap()));
+      }
+    }
+
+    function wowFmtVol(n) {
+      if (!n) return '0';
+      if (n >= 10000000) return (n/10000000).toFixed(2) + ' Cr';
+      if (n >= 100000)   return (n/100000).toFixed(1) + 'L';
+      return n.toLocaleString('en-IN');
+    }
+
+    function wowMovements(prev, curr) {
+      if (!prev) return { toEnabled: [], toPitching: [] };
+      var toEnabled = curr.enabled.filter(function(n){ return prev.pitching.indexOf(n) >= 0 && prev.enabled.indexOf(n) < 0; });
+      var toPitching = curr.pitching.filter(function(n){ return prev.pitching.indexOf(n) < 0 && prev.enabled.indexOf(n) < 0; });
+      return { toEnabled: toEnabled, toPitching: toPitching };
+    }
+
+    function wowRenderCards() {
+      var hist = wowHistory();
+      var curW = wowCurWeek();
+      var curSnap = hist[curW] || wowSnap();
+
+      // Update header quick stats
+      var el;
+      el = document.getElementById('wow-hdr-enabled');
+      if (el) el.textContent = curSnap.enabled.length + ' accts - ' + wowFmtVol(curSnap.eVol);
+      el = document.getElementById('wow-hdr-pitching');
+      if (el) el.textContent = curSnap.pitching.length + ' accts - ' + wowFmtVol(curSnap.pVol);
+      el = document.getElementById('wow-hdr-pacing');
+      if (el) el.textContent = curSnap.pct + '%';
+      el = document.getElementById('wow-week-badge');
+      var wd = wowWeekDates(curW);
+      if (el) el.textContent = 'Week ' + curW + ' (' + wd.label + ')';
+
+      // Phase label
+      var phase = curW <= 3 ? 1 : curW <= 7 ? 2 : curW <= 11 ? 3 : 4;
+      var phNames = ['', 'Phase 1: Live Activation', 'Phase 2: Whale Conversion', 'Phase 3: Nov Festive Ramp', 'Phase 4: Dec Threshold Lock'];
+      el = document.getElementById('wow-phase-label');
+      if (el) el.textContent = 'Current: ' + phNames[phase];
+
+      // Phase card badges
+      var phaseEnds = { 1: 3, 2: 7, 3: 11, 4: 15 };
+      for (var p = 1; p <= 4; p++) {
+        var badge = document.getElementById('wow-ph' + p + '-badge');
+        var card = document.getElementById('wow-ph-' + p);
+        if (!badge) continue;
+        if (p === phase) {
+          badge.textContent = 'Active';
+          badge.className = 'px-1.5 rounded bg-sky-100 text-sky-700 font-bold';
+          if (card) { card.classList.remove('border-slate-200'); card.classList.add('border-sky-300', 'ring-1', 'ring-sky-200'); }
+        } else if (curW > phaseEnds[p]) {
+          badge.textContent = 'Done';
+          badge.className = 'text-slate-400 text-[10px]';
+        } else {
+          badge.textContent = 'Upcoming';
+          badge.className = 'text-slate-400 text-[10px]';
+        }
+      }
+
+      // Build week cards
+      var grid = document.getElementById('wow-week-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      for (var w = 1; w <= WOW_TOTAL_WEEKS; w++) {
+        var snap = hist[w];
+        var prev = hist[w - 1] || null;
+        var isCur = (w === curW);
+        var isFut = (w > curW);
+        var dates = wowWeekDates(w);
+        var wPhase = w <= 3 ? 1 : w <= 7 ? 2 : w <= 11 ? 3 : 4;
+        var phColor = ['', 'text-sky-600', 'text-amber-600', 'text-slate-500', 'text-emerald-600'][wPhase];
+
+        var borderCls = isCur
+          ? 'border-indigo-300 ring-2 ring-indigo-200'
+          : 'border-slate-200';
+        var opacity = isFut ? 'opacity-50' : '';
+
+        var statusBadge = isCur
+          ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">Current</span>'
+          : isFut
+          ? '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold text-[10px]">Upcoming</span>'
+          : '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold text-[10px]">Done</span>';
+
+        var body = '';
+        if (!snap || isFut) {
+          body = '<div class="space-y-1 text-[11px] text-slate-400 mt-1">'
+            + '<div class="flex justify-between"><span>Enabled:</span><b>--</b></div>'
+            + '<div class="flex justify-between"><span>Pitching:</span><b>--</b></div>'
+            + '<div class="flex justify-between"><span>Pacing:</span><b>--</b></div>'
+            + '</div>'
+            + '<div class="pt-2 border-t border-slate-100 text-[10px] text-slate-400 italic mt-1">Snapshot auto-saved on first open.</div>';
+        } else {
+          var mov = wowMovements(prev, snap);
+          var movHtml = '';
+          mov.toEnabled.forEach(function(n) {
+            movHtml += '<span class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px] mb-1">&#10003; ' + n + ' Enabled</span> ';
+          });
+          mov.toPitching.forEach(function(n) {
+            movHtml += '<span class="inline-block px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold text-[10px] mb-1">&#128293; ' + n + ' Pitching</span> ';
+          });
+
+          body = '<div class="space-y-1 text-[11px] mt-1">'
+            + '<div class="flex justify-between text-slate-600"><span>Enabled:</span><b class="text-sky-600">' + snap.enabled.length + ' - ' + wowFmtVol(snap.eVol) + '</b></div>'
+            + '<div class="flex justify-between text-slate-600"><span>Pitching:</span><b class="text-amber-600">' + snap.pitching.length + ' - ' + wowFmtVol(snap.pVol) + '</b></div>'
+            + '<div class="flex justify-between text-slate-600"><span>Pacing:</span><b class="text-emerald-600">' + snap.pct + '%</b></div>'
+            + '</div>'
+            + '<div class="pt-2 border-t border-slate-100 mt-1">'
+            + (movHtml ? movHtml : '<span class="text-[10px] text-slate-400 italic">No stage movements this week.</span>')
+            + '</div>';
+        }
+
+        var card = '<div class="flex-none w-52 bg-white p-3.5 rounded-xl border ' + borderCls + ' ' + opacity + ' shadow-sm">'
+          + '<div class="flex justify-between items-center mb-1">'
+          + '<span class="font-black text-slate-900 text-xs">W' + w + ' &bull; ' + dates.label + '</span>'
+          + statusBadge
+          + '</div>'
+          + '<div class="text-[10px] font-bold ' + phColor + ' mb-1">Phase ' + wPhase + '</div>'
+          + body
+          + '</div>';
+        grid.innerHTML += card;
+      }
+
+      // Scroll to current week
+      setTimeout(function() {
+        var cards = grid.querySelectorAll('.flex-none');
+        if (cards[curW - 1]) {
+          cards[curW - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }, 80);
+    }
+
+    function wowClearHistory(evt) {
+      evt.stopPropagation();
+      if (!confirm('Clear all WoW weekly snapshots? This cannot be undone.')) return;
+      for (var w = 1; w <= WOW_TOTAL_WEEKS; w++) localStorage.removeItem(wowKey(w));
+      wowRenderCards();
+    }
+
+    function toggleWoWTracker() {
+      var drawer = document.getElementById('wow-drawer');
+      var arrow  = document.getElementById('wow-toggle-arrow');
+      var text   = document.getElementById('wow-toggle-text');
+      if (!drawer) return;
+      var isHidden = drawer.style.display === 'none' || drawer.style.display === '';
+      if (isHidden) {
+        drawer.style.display = 'block';
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        if (text)  text.textContent = 'Collapse WoW Tracker';
+        wowSaveSnap();
+        wowRenderCards();
+      } else {
+        drawer.style.display = 'none';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        if (text)  text.textContent = 'Expand WoW Tracker';
+      }
+    }
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
@@ -2816,6 +3102,11 @@
       populateCSMFilter();
       renderCSMLeaderboard();
       renderTable();
+      wowSaveSnap();
+      wowRenderCards();
+      wowSaveCurrentSnapshot();
+      // Populate header WoW stats without opening drawer
+      wowRenderHeader();
     });
   </script>
 </body>
