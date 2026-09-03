@@ -247,41 +247,20 @@
         </div>
       </div>
 
-      <!-- KPI 5: Remaining Pipeline -->
+      <!-- KPI 5: Volume Adoption (as of date - tracks actual live volume) -->
       <div class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-xs hover:shadow-sm transition">
         <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
-          <span class="font-medium">Target Pipeline</span>
-          <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-[11px]">52.6% Target</span>
+          <span class="font-medium">Vol Adoption</span>
+          <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-[11px]" id="kpi-adoption-date">As of --</span>
         </div>
-        <div class="text-2xl font-black text-slate-700 dark:text-slate-300 tracking-tight" id="kpi-pipeline-cr">14.35 Cr</div>
+        <div class="text-2xl font-black text-slate-700 dark:text-slate-300 tracking-tight" id="kpi-adoption-cr">0 Cr</div>
         <div class="mt-2 text-xs flex items-center justify-between text-slate-500 dark:text-slate-400">
-          <span>Unpitched Runway:</span>
-          <span class="text-slate-700 dark:text-slate-300 font-bold">22 Accounts</span>
+          <span>Clients Live:</span>
+          <span class="text-slate-700 dark:text-slate-300 font-bold" id="kpi-adoption-count">0 Accounts</span>
         </div>
         <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
-          <div class="bg-slate-400 h-full rounded-full" style="width: 52.6%"></div>
+          <div class="bg-slate-400 h-full rounded-full transition-all duration-500" id="kpi-adoption-bar" style="width: 0%"></div>
         </div>
-      </div>
-    </section>
-
-    <!-- CSM Driver Leaderboard & 3.5-Month Campaign Pods -->
-    <section class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 md:p-6 shadow-xs space-y-4">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 text-xs font-bold">Primary Campaign Drivers</span>
-            <h2 class="text-base font-bold text-slate-900 dark:text-white">Customer Success Manager (CSM) — 3.5M Target Leaderboard (Mid-Sept to Dec)</h2>
-          </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">CSM portfolios ranked by total 3.5-month campaign delivery target. Click any CSM card to filter their accounts below.</p>
-        </div>
-        <div class="text-xs text-slate-500 dark:text-slate-400">
-          Target Runway: <b class="text-slate-800 dark:text-slate-200">27.28 Cr Total (~27 Cr)</b>
-        </div>
-      </div>
-
-      <!-- CSM Cards Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="csm-grid-container">
-        <!-- Rendered by JS -->
       </div>
     </section>
 
@@ -360,6 +339,27 @@
       </div>
     </section>
 
+    <!-- CSM Driver Leaderboard & 3.5-Month Campaign Pods -->
+    <section class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 md:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 text-xs font-bold">Primary Campaign Drivers</span>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Customer Success Manager (CSM) — 3.5M Target Leaderboard (Mid-Sept to Dec)</h2>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">CSM portfolios ranked by total 3.5-month campaign delivery target. Click any CSM card to filter their accounts below.</p>
+        </div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">
+          Target Runway: <b class="text-slate-800 dark:text-slate-200">27.28 Cr Total (~27 Cr)</b>
+        </div>
+      </div>
+
+      <!-- CSM Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="csm-grid-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
     <!-- 33 Core Clients Directory & Interactive Explorer -->
     <section class="bg-white dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-xs space-y-4">
       
@@ -421,6 +421,7 @@
               <th class="py-3 px-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('id')">#</th>
               <th class="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('name')">Client Name ↕</th>
               <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('stage')">MaxPrice Stage ↕</th>
+              <th class="py-3 px-3 text-center cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('started_vol')">Vol Started ↕</th>
               <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white text-indigo-700 dark:text-indigo-300" onclick="sortTable('csm')">CSM (Driver) ↕</th>
               <th class="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('sales_am')">Sales AM / TL ↕</th>
               <th class="py-3 px-3 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white" onclick="sortTable('avg_monthly')">Avg Monthly Vol ↕</th>
@@ -2205,6 +2206,21 @@
       return Math.round(num).toString();
     }
 
+    function renderVolAdoption() {
+      const liveClients = clientsData.filter(c => c.started_vol);
+      const liveVol = liveClients.reduce((acc, c) => acc + c.avg_monthly, 0);
+      const totalTarget = clientsData.reduce((acc, c) => acc + c.target_3_5x_growth, 0);
+      const pct = totalTarget ? (liveVol / totalTarget * 100) : 0;
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+      document.getElementById('kpi-adoption-date').innerText = `As of ${dateStr}`;
+      document.getElementById('kpi-adoption-cr').innerText = liveVol > 0 ? formatShortVol(liveVol) : '0 Cr';
+      document.getElementById('kpi-adoption-count').innerText = `${liveClients.length} Account${liveClients.length === 1 ? '' : 's'}`;
+      document.getElementById('kpi-adoption-bar').style.width = `${Math.min(pct, 100).toFixed(1)}%`;
+    }
+
     function getStageBadgeHTML(stage) {
       if (stage === 'MaxPrice Enabled') {
         return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-100 dark:bg-cyan-500/10 text-sky-800 dark:text-cyan-300 border border-sky-200 dark:border-cyan-500/30">
@@ -2340,7 +2356,7 @@
       tbody.innerHTML = '';
 
       if (filteredClients.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-8 text-slate-400 text-xs">No clients match the selected criteria.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center py-8 text-slate-400 text-xs">No clients match the selected criteria.</td></tr>`;
         return;
       }
 
@@ -2357,6 +2373,11 @@
             <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">${c.team} • ${c.tier}</div>
           </td>
           <td class="py-3 px-3">${getStageBadgeHTML(c.stage)}</td>
+          <td class="py-3 px-3 text-center">
+            ${c.started_vol
+              ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Live</span>'
+              : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Not started</span>'}
+          </td>
           <td class="py-3 px-3">
             <div class="font-bold text-indigo-900 dark:text-indigo-300 text-xs flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
@@ -2649,8 +2670,7 @@
         c.target_3_5x_growth
       ]);
 
-      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('
-');
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement('a');
       link.setAttribute('href', encodedUri);
@@ -2659,220 +2679,6 @@
       link.click();
       document.body.removeChild(link);
     }
-
-    // ═══════════════════════════════════════════════════════
-    // WoW TRACKER — Auto-calculating, localStorage-backed
-    // ═══════════════════════════════════════════════════════
-
-    const WOW_CAMPAIGN_START = new Date('2026-09-01'); // Week 1 start
-    const WOW_TOTAL_WEEKS = 15;
-    const WOW_CAMPAIGN_TARGET = 272789108; // 27.28 Cr msgs
-
-    // Week date ranges (W1 = Sep 1)
-    function wowWeekRange(weekNum) {
-      const start = new Date(WOW_CAMPAIGN_START);
-      start.setDate(start.getDate() + (weekNum - 1) * 7);
-      const end = new Date(start);
-      end.setDate(end.getDate() + 6);
-      const fmt = d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-      return { start, end, label: `${fmt(start)} – ${fmt(end)}` };
-    }
-
-    function wowCurrentWeek() {
-      const now = new Date();
-      const msPerWeek = 7 * 24 * 60 * 60 * 1000;
-      const diff = now - WOW_CAMPAIGN_START;
-      if (diff < 0) return 1;
-      const w = Math.floor(diff / msPerWeek) + 1;
-      return Math.min(w, WOW_TOTAL_WEEKS);
-    }
-
-    function wowSnapshotKey(weekNum) {
-      return `maxprice_wow_w${weekNum}`;
-    }
-
-    function wowBuildSnapshot() {
-      const enabled = clientsData.filter(c => c.max_price);
-      const pitching = clientsData.filter(c => c.interested && !c.max_price);
-      const engagedVol = [...enabled, ...pitching].reduce((s, c) => s + (c.target_3_5x_growth || 0), 0);
-      const pct = ((engagedVol / WOW_CAMPAIGN_TARGET) * 100).toFixed(1);
-      return {
-        week: wowCurrentWeek(),
-        date: new Date().toISOString(),
-        enabled: enabled.map(c => c.name),
-        pitching: pitching.map(c => c.name),
-        enabledVol: enabled.reduce((s, c) => s + (c.target_3_5x_growth || 0), 0),
-        pitchingVol: pitching.reduce((s, c) => s + (c.target_3_5x_growth || 0), 0),
-        engagedVol,
-        pct: parseFloat(pct),
-      };
-    }
-
-    function wowLoadHistory() {
-      const hist = {};
-      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
-        const raw = localStorage.getItem(wowSnapshotKey(w));
-        if (raw) {
-          try { hist[w] = JSON.parse(raw); } catch(e) {}
-        }
-      }
-      return hist;
-    }
-
-    function wowSaveCurrentSnapshot() {
-      const w = wowCurrentWeek();
-      const key = wowSnapshotKey(w);
-      if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, JSON.stringify(wowBuildSnapshot()));
-      }
-    }
-
-    function wowDetectMovements(prev, curr) {
-      if (!prev) return { toEnabled: [], toPitching: [], newPitches: [] };
-      const toEnabled = curr.enabled.filter(n => !prev.enabled.includes(n) && prev.pitching.includes(n));
-      const toPitching = curr.pitching.filter(n => !prev.pitching.includes(n) && !prev.enabled.includes(n));
-      const movedFromTarget = curr.pitching.filter(n => !prev.pitching.includes(n) && !prev.enabled.includes(n));
-      return { toEnabled, toPitching: movedFromTarget };
-    }
-
-    function wowShortVol(n) {
-      if (!n) return '0';
-      if (n >= 1e7) return (n / 1e7).toFixed(2) + ' Cr';
-      if (n >= 1e5) return (n / 1e5).toFixed(1) + 'L';
-      return n.toLocaleString('en-IN');
-    }
-
-    function wowRenderWeekCard(weekNum, snapshot, prevSnapshot, isCurrent, isBlank) {
-      const range = wowWeekRange(weekNum);
-      const isFuture = weekNum > wowCurrentWeek();
-      let phaseNum = weekNum <= 3 ? 1 : weekNum <= 7 ? 2 : weekNum <= 11 ? 3 : 4;
-      const phaseColors = ['', 'text-sky-600', 'text-amber-600', 'text-slate-500', 'text-emerald-600'];
-
-      let borderCls = isCurrent
-        ? 'border-indigo-300 dark:border-indigo-700/60 ring-2 ring-indigo-500/20'
-        : isFuture
-        ? 'border-slate-200 dark:border-slate-800 opacity-60'
-        : 'border-slate-200 dark:border-slate-800';
-
-      let statusBadge = isCurrent
-        ? `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 font-bold text-[10px]">Current</span>`
-        : isFuture
-        ? `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 font-semibold text-[10px]">Upcoming</span>`
-        : `<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 font-semibold text-[10px]">Done</span>`;
-
-      let innerContent;
-
-      if (isBlank || isFuture) {
-        // Future week or no snapshot yet
-        innerContent = `
-          <div class="space-y-1 text-[11px] text-slate-500 dark:text-slate-500 mt-1">
-            <div class="flex justify-between"><span>Enabled:</span> <b class="text-slate-400">—</b></div>
-            <div class="flex justify-between"><span>Pitching:</span> <b class="text-slate-400">—</b></div>
-            <div class="flex justify-between"><span>Pacing:</span> <b class="text-slate-400">—</b></div>
-          </div>
-          <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 italic">
-            Snapshot auto-saved on first open of this week.
-          </div>`;
-      } else {
-        // Has data
-        const movements = wowDetectMovements(prevSnapshot, snapshot);
-        const movHtml = [
-          ...movements.toEnabled.map(n => `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold text-[10px]">✅ ${n} → Enabled</span>`),
-          ...movements.toPitching.map(n => `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold text-[10px]">🔥 ${n} → Pitching</span>`)
-        ].join('');
-
-        innerContent = `
-          <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-400 mt-1">
-            <div class="flex justify-between"><span>Enabled:</span> <b class="text-sky-600 dark:text-cyan-400">${snapshot.enabled.length} accts · ${wowShortVol(snapshot.enabledVol)}</b></div>
-            <div class="flex justify-between"><span>Pitching:</span> <b class="text-amber-600 dark:text-amber-400">${snapshot.pitching.length} accts · ${wowShortVol(snapshot.pitchingVol)}</b></div>
-            <div class="flex justify-between"><span>Pacing:</span> <b class="text-emerald-600 dark:text-emerald-400">${snapshot.pct}% of 27.28 Cr</b></div>
-          </div>
-          ${movHtml ? `<div class="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1 mt-1">${movHtml}</div>` : `<div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 italic">No stage movements this week.</div>`}`;
-      }
-
-      return `
-        <div class="flex-none w-52 bg-white dark:bg-slate-900 p-3.5 rounded-xl border ${borderCls} shadow-2xs space-y-1.5">
-          <div class="flex justify-between items-center">
-            <span class="font-black text-slate-900 dark:text-white text-xs">W${weekNum} · ${range.label}</span>
-            ${statusBadge}
-          </div>
-          <div class="text-[10px] font-bold ${phaseColors[phaseNum]}">Phase ${phaseNum}</div>
-          ${innerContent}
-        </div>`;
-    }
-
-    function wowRender() {
-      const history = wowLoadHistory();
-      const curW = wowCurrentWeek();
-      const curSnap = history[curW] || wowBuildSnapshot();
-
-      // Header quick stats
-      document.getElementById('wow-hdr-enabled').textContent = `${curSnap.enabled.length} accts · ${wowShortVol(curSnap.enabledVol)}`;
-      document.getElementById('wow-hdr-pitching').textContent = `${curSnap.pitching.length} accts · ${wowShortVol(curSnap.pitchingVol)}`;
-      document.getElementById('wow-hdr-pacing').textContent = `${curSnap.pct}%`;
-
-      // Current week badge in header
-      const range = wowWeekRange(curW);
-      document.getElementById('wow-current-week-badge').textContent = `Week ${curW} · ${range.label}`;
-
-      // Phase badge logic
-      const phaseMap = { 1: [1,3], 2: [4,7], 3: [8,11], 4: [12,15] };
-      let currentPhase = 1;
-      for (const [ph, [s, e]] of Object.entries(phaseMap)) {
-        if (curW >= s && curW <= e) { currentPhase = parseInt(ph); break; }
-      }
-      const phaseLabels = { 1: 'Phase 1: Live Activation', 2: 'Phase 2: Whale Conversion', 3: 'Phase 3: Nov Festive Ramp', 4: 'Phase 4: Dec Threshold Lock' };
-      document.getElementById('wow-current-phase-label').textContent = `Current: ${phaseLabels[currentPhase]}`;
-
-      // Phase card borders
-      for (let p = 1; p <= 4; p++) {
-        const el = document.getElementById(`wow-phase-${p}`);
-        const badgeEl = document.getElementById(`wow-phase-${p}-badge`);
-        const [ps, pe] = phaseMap[p];
-        if (p === currentPhase) {
-          el.classList.add('border-sky-300', 'dark:border-cyan-700/60');
-          el.classList.remove('border-slate-200', 'dark:border-slate-800');
-          badgeEl.textContent = 'Active';
-          badgeEl.className = 'px-1.5 py-0.5 rounded bg-sky-100 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-400 text-[10px] font-bold';
-        } else if (curW > pe) {
-          badgeEl.textContent = 'Done ✓';
-          badgeEl.className = 'px-1.5 py-0.5 rounded text-slate-400 text-[10px] font-semibold';
-        } else {
-          badgeEl.textContent = 'Upcoming';
-          badgeEl.className = 'text-slate-400 text-[10px]';
-        }
-      }
-
-      // Build week cards
-      const grid = document.getElementById('wow-week-grid');
-      grid.innerHTML = '';
-      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
-        const snap = history[w];
-        const prevSnap = history[w - 1] || null;
-        const isCurrent = w === curW;
-        const isFuture = w > curW;
-        const isBlank = !snap;
-        grid.innerHTML += wowRenderWeekCard(w, snap, prevSnap, isCurrent, isBlank);
-      }
-
-      // Auto-scroll to current week
-      setTimeout(() => {
-        const cards = grid.querySelectorAll('div[class*="flex-none"]');
-        if (cards[curW - 1]) {
-          cards[curW - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      }, 100);
-    }
-
-    function wowClearHistory(e) {
-      e.stopPropagation();
-      if (!confirm('Clear all WoW weekly snapshots? This cannot be undone.')) return;
-      for (let w = 1; w <= WOW_TOTAL_WEEKS; w++) {
-        localStorage.removeItem(wowSnapshotKey(w));
-      }
-      wowRender();
-    }
-
 
     // =====================================================
     // WoW TRACKER - Auto-calculating, localStorage-backed
@@ -3102,11 +2908,9 @@
       populateCSMFilter();
       renderCSMLeaderboard();
       renderTable();
+      renderVolAdoption();
       wowSaveSnap();
       wowRenderCards();
-      wowSaveCurrentSnapshot();
-      // Populate header WoW stats without opening drawer
-      wowRenderHeader();
     });
   </script>
 </body>
